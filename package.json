@@ -4,13 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "main": "src/index.js",
-  "scripts": {
     "start": "node server.js",
-    "test": "mocha",
-    "postinstall": "bower install && grunt build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
