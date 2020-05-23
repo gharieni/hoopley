@@ -36,9 +36,34 @@ app.post('/webhook', (req, res) => {
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
     });
-res.status(200).send('EVENT_RECEIVED');
-} else {
-  //return a 404 not found if event is not from a page subscruption 
-  res.sendStatus(404);
-}
+    res.status(200).send('EVENT_RECEIVED');
+  } else {
+    //return a 404 not found if event is not from a page subscruption
+    res.sendStatus(404);
+  }
+});
+
+// adds support for Get request to the webhook
+app.get('/webhook', (req, res) => {
+  //you verify token. Should be a random string.
+  let VERIFY_TOKEN = EAAHVTLvXqNEBAJlbSFGeT36jZA9GD8h4dwZAOiYtVZBp9wEV8ZAHZAsvEybRwKFhcEYwHWODzsLkYZCexGjmWFU
+  //parse the query params
+  let mode = req.query['hub.mode'];
+  let token = req.query['hub.verify_token'];
+  let challange = req.query['hub.challange'];
+
+  //check if a token and mode is in the query string of the request
+  if (mode && token){
+
+    // checks the mode and tokn sent is correct
+    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+
+      //  response with the challange token from the request
+      console.log('WEBHOOK_VERIFIED');
+      res.status(200).send(challenge);
+    } else {
+      // Respond with 403 Forbidden if verify tokens do not match
+      res.sendStatus(403);
+    }
+  }
 });
