@@ -2,9 +2,12 @@ require('dotenv').config({ path: 'variables.env' });
 
 const express = require('express');
 const bodyParser = require('body-parser');
+var favicon = require('serve-favicon')
+
 
 const app = express();
 
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
