@@ -57,14 +57,19 @@ app.get('/webhook', (req, res) => {
   //check if a token and mode is in the query string of the request
   if (mode && token){
     // checks the mode and tokn sent is correct
+    console.log('hello 3')
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
       //  response with the challange token from the request
+      console.log('hello if')
       console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
+      console.log('end if')
     } else {
+      console.log('hello else')
       // Respond with 403 Forbidden if verify tokens do not match
       res.sendStatus(403);
+      console.log('end else')
     }
   }
 });
