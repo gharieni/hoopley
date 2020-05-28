@@ -44,8 +44,7 @@ app.post('/webhook', (req, res) => {
 });
 
 // adds support for Get request to the webhook
-app.get('/', (req, res) => {
- res.redirect('/webhook');
+app.get('/webhook', (req, res) => {
   console.log('hello 1')
   //you verify token. Should be a random string.
   let VERIFY_TOKEN = "verify_token\n"
