@@ -2,12 +2,10 @@ require('dotenv').config({ path: 'variables.env' });
 
 const express = require('express');
 const bodyParser = require('body-parser');
-var favicon = require('serve-favicon');
 
 
 const app = express();
 
-app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -17,15 +15,6 @@ var server = app.listen(process.env.PORT || 5000, function () {
   console.log("Express is working on port " + port);
 });
 
-
-
-
-//app.listen(5000, () => console.log('Express server is listening on port 5000'));
-
-//app.get('/', verifyWebhook);
-//const messageWebhook = require('./message-webhook');
-
-//app.post('/', messageWebhook);
 app.post('/webhook', (req, res) => {
   let body = req.body;
 
@@ -64,15 +53,13 @@ app.get('/webhook', (req, res) => {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
       //  response with the challange token from the request
-      console.log('hello if')
       console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
       console.log('end if')
     } else {
-      console.log('hello else')
       // Respond with 403 Forbidden if verify tokens do not match
       res.sendStatus(403);
-      console.log('end else')
+      console.log('verify token do not match')
     }
   }
 });
