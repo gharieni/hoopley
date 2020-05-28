@@ -2,7 +2,7 @@ require('dotenv').config({ path: 'variables.env' });
 
 const express = require('express');
 const bodyParser = require('body-parser');
-var favicon = require('serve-favicon')
+var favicon = require('serve-favicon');
 
 
 const app = express();
