@@ -44,7 +44,9 @@ app.post('/webhook', (req, res) => {
 });
 
 // adds support for Get request to the webhook
-app.get('/webhook', (req, res) => {
+app.get('/', (req, res) => {
+  res.redirect('/webhook');
+  console.log('hello 1')
   //you verify token. Should be a random string.
   let VERIFY_TOKEN = "verify_token\n"
   //parse the query params
@@ -54,7 +56,6 @@ app.get('/webhook', (req, res) => {
 
   //check if a token and mode is in the query string of the request
   if (mode && token){
-
     // checks the mode and tokn sent is correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
