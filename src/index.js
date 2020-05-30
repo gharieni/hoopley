@@ -19,18 +19,22 @@ app.post('/webhook', (req, res) => {
   let body = req.body;
 
   //checks this is an event from the page subscreption
+  console.log('post 1')
   if (body.object === 'page'){
+  console.log('post 2')
 
     //Iterates over each netry - there may be multiple if batched
     body.entry.forEach(function(entry) {
       //get the message enry messaging is an array , but
       //will only ever contain one message , so we get index 0
+      console.log('post 3')
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
     });
     res.status(200).send('EVENT_RECEIVED');
   } else {
     //return a 404 not found if event is not from a page subscruption
+    console.log('post 4')
     res.sendStatus(404);
   }
 });
