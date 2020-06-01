@@ -19,7 +19,9 @@ app.post('/webhook', (req, res) => {
   let body = req.body;
 
   //checks this is an event from the page subscreption
-  console.log('1')
+  cons let webhook_event = entry.messaging[0];
+      console.log(webhook_event);
+ole.log('1')
   if (body.object === 'page'){
       console.log('post 2')
 
@@ -41,9 +43,7 @@ app.post('/webhook', (req, res) => {
 
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
-  console.log('hello 1')
-  //you verify token. Should be a random string.
- // let VERIFY_TOKEN = "verify_token\n"
+  console.log(VERIFY_TOKEN)
   //parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
