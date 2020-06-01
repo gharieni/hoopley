@@ -19,11 +19,11 @@ app.post('/webhook', (req, res) => {
   let body = req.body;
 
   //checks this is an event from the page subscreption
-  cons let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-ole.log('1')
+  let webhook_event = entry.messaging[0];
+  console.log(webhook_event);
+  console.log('1')
   if (body.object === 'page'){
-      console.log('post 2')
+    console.log('post 2')
 
     //Iterates over each netry - there may be multiple if batched
     body.entry.forEach(function(entry) {
