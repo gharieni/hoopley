@@ -21,7 +21,7 @@ app.post('/webhook', (req, res) => {
   //checks this is an event from the page subscreption
   console.log('1')
   if (body.object === 'page'){
-  console.log('post 2')
+      console.log('post 2')
 
     //Iterates over each netry - there may be multiple if batched
     body.entry.forEach(function(entry) {
@@ -43,7 +43,7 @@ app.post('/webhook', (req, res) => {
 app.get('/webhook', (req, res) => {
   console.log('hello 1')
   //you verify token. Should be a random string.
-  let VERIFY_TOKEN = "verify_token\n"
+ // let VERIFY_TOKEN = "verify_token\n"
   //parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
