@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/hoopmynf/public_html/
+    - export DEPLOYPATH=/home/hoopmynf/public_html/hoopley
     - /bin/cp index.html $DEPLOYPATH
