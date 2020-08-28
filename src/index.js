@@ -24,7 +24,9 @@ app.post('/webhook', (req, res) => {
   console.log(req.queryText);
 
   console.log("------------------------------")
-//  console.log(req);
+  console.log(req);
+
+  console.log("------------------------------")
 
   console.log("response is :")
   console.log(res.body)
