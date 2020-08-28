@@ -16,11 +16,13 @@ var server = app.listen(process.env.PORT || 5000, function () {
 });
 
 app.post('/webhook', (req, res) => {
-  let body = req.body;
+  let body = req.body();
 
   //checks this is an event from the page subscreption
 //  let webhook_event = entry.messaging[0];
-  console.log(body.object);
+  console.log(body);
+  console.log("response is :")
+  console.log(res.body())
   console.log('1')
   if (body.object === 'page'){
     console.log('post 2')
