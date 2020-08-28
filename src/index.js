@@ -22,7 +22,7 @@ app.post('/webhook', (req, res) => {
 //  let webhook_event = entry.messaging[0];
   console.log(body);
   console.log("response is :")
-  console.log(res.body())
+  console.log(res.body)
   console.log('1')
   if (body.object === 'page'){
     console.log('post 2')
