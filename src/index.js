@@ -20,17 +20,10 @@ app.post('/webhook', (req, res) => {
 
   //checks this is an event from the page subscreption
 //  let webhook_event = entry.messaging[0];
-  console.log("req is :")
-  console.log(req.queryText);
 
   console.log("------------------------------")
-  console.log(req);
-
+  //console.log("body")
   console.log("------------------------------")
-
-  console.log("response is :")
-  console.log(res.body)
-  console.log('1')
   if (body.object === 'page'){
     console.log('post 2')
 
