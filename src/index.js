@@ -24,13 +24,7 @@ app.post('/webhook', (req, res) => {
   console.log("------------------------------")
   //console.log("body")
 
-  body.entry.forEach(function(entry) {
 
-    // Gets the message. entry.messaging is an array, but
-    // will only ever contain one message, so we get index 0
-    let webhook_event = entry.messaging[0];
-    console.log(webhook_event);
-  });
   console.log("------------------------------")
   if (body.object === 'page'){
     console.log('post 2')
@@ -44,11 +38,12 @@ app.post('/webhook', (req, res) => {
       console.log(webhook_event);
     });
     res.status(200).send('EVENT_RECEIVED');
-  } else {
-    //return a 404 not found if event is not from a page subscruption
-    console.log('post 4')
-    res.sendStatus(404);
   }
+  //else {
+    //return a 404 not found if event is not from a page subscruption
+   // console.log('post 4')
+    //res.sendStatus(404);
+  //}
 });
 
 // adds support for Get request to the webhook
