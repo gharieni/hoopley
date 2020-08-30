@@ -36,12 +36,11 @@ app.post('/webhook', (req, res) => {
       console.log(webhook_event);
     });
     res.status(200).send('EVENT_RECEIVED');
-  }
-  //else {
+  } else {
     //return a 404 not found if event is not from a page subscruption
-   // console.log('post 4')
-    //res.sendStatus(404);
-  //}
+    console.log('post 4')
+    res.sendStatus(404);
+  }
 });
 
 // adds support for Get request to the webhook
