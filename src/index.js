@@ -23,8 +23,6 @@ app.post('/webhook', (req, res) => {
 
   console.log("------------------------------")
   //console.log("body")
-
-
   console.log("------------------------------")
   if (body.object === 'page'){
     console.log('post 2')
