@@ -14,6 +14,7 @@ var server = app.listen(process.env.PORT || 5000, function () {
   var port = server.address().port;
   console.log("Express is working on port " + port);
 });
+
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
   console.log(VERIFY_TOKEN)
@@ -27,9 +28,8 @@ app.get('/webhook', (req, res) => {
   if (mode && token){
     // checks the mode and tokn sent is correct
     console.log('hello 3')
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-
-      //  response with the challange token from the request
+    if (mode === 'subscribe' && token === VERIFY_TOKEN)
+     //  response with the challange token from the request
       console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
       console.log('end if')
@@ -47,7 +47,7 @@ app.post('/webhook', (req, res) => {
   //checks this is an event from the page subscreption
 //  let webhook_event = entry.messaging[0];
 
-  console.log("------------------------------")
+  console.log(-----------------------------")
   //console.log("body")
   console.log("------------------------------")
   if (body.object === 'page'){
