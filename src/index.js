@@ -38,7 +38,6 @@ app.get('/webhook', (req, res) => {
       res.sendStatus(403);
       console.log('verify token do not match')
     }
-  }
 });
 
 app.post('/webhook', (req, res) => {
