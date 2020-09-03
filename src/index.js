@@ -17,7 +17,7 @@ var server = app.listen(process.env.PORT || 5000, function () {
 
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
-  console.log(VERIFY_TOKEN)
+  //console.log(VERIFY_TOKEN)
   //parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
