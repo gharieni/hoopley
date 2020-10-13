@@ -39,6 +39,68 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+
+function sendToApiAi(sender, text) {
+  sendTypingOn(sender);
+  let apiaiRequest = apiAiService.textRequest(text, {
+    sessionId: sessionIds.get(sender)
+  });
+
+  apiaiRequest.on("response", response => {
+    if (isDefined(response.result)) {
+      handleApiAiResponse(sender, response);
+    }
+  });
+
+  apiaiRequest.on("error", error => console.error(error));
+  apiaiRequest.end();
+}
+
+/*
+ * Call the Send API. The message data goes in the body. If successful, we'll
+ * get the message id in a response
+ *
+ */
+const callSendAPI = async (messageData) => {
+
+  const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + config.FB_PAGE_TOKEN;
+  await axios.post(url, messageData)
+      .then(function (response) {
+        if (response.status == 200) {
+          var recipientId = response.data.recipient_id;
+          var messageId = response.data.message_id;
+          if (messageId) {
+            console.log(
+                "Successfully sent message with id %s to recipient %s",
+                messageId,
+                recipientId
+            );
+          } else {
+            console.log(
+                "Successfully called Send API for recipient %s",
+                recipientId
+            );
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error.response.headers);
+      });
+}
+
+
+const isDefined = (obj) => {
+  if (typeof obj == "undefined") {
+    return false;
+  }
+  if (!obj) {
+    return false;
+  }
+  return obj != null;
+}
+
+
+
 // Handles messages events
 const handleMessage = (sender_psid, received_message) => {
   let response;
