@@ -42,34 +42,59 @@ app.get('/webhook', (req, res) => {
 app.post('/webhook', (req, res) => {
   let data = req.body;
 
-  //checks this is an event from the page subscreption
-//  let webhook_event = entry.messaging[0];
+  // Make sure this is a page subscription
+  if (data.object == "page") {
+    // Iterate over each entry
+    // There may be multiple if batched
+    data.entry.forEach(function (pageEntry) {
+      var pageID = pageEntry.id;
+      var timeOfEvent = pageEntry.time;
 
-  console.log("----------------- app post ")
-  if (data.object === 'page'){
-    console.log('post 2')
-
-    //Iterates over each netry - there may be multiple if batched
-    data.entry.forEach(function(entry) {
-      //get the message enry messaging is an array , but
-      //will only ever contain one message , so we get index 0
-      console.log('post 3')
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      // Iterate over each messaging event
+      pageEntry.messaging.forEach(function (messagingEvent) {
+        if (messagingEvent.message) {
+          receivedMessage(messagingEvent);
+        } else {
+          console.log("Webhook received unknown messagingEvent: ",messagingEvent);
+        }
+      });
     });
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    //return a 404 not found if event is not from a page subscruption
-    console.log('post 4')
-    res.sendStatus(404);
-    data.entry.forEach(function(entry) {
-      //get the message enry messaging is an array , but
-      //will only ever contain one message , so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-    });
+    // Assume all went well.
+    // You must send back a 200, within 20 seconds
+    res.sendStatus(200);
   }
 });
+
+
+
+
+
+function receivedMessage(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfMessage = event.timestamp;
+  var message = event.message;
+
+  if (!sessionIds.has(senderID)) {
+    sessionIds.set(senderID, uuid.v1());
+  }
+
+  var messageId = message.mid;
+  var appId = message.app_id;
+  var metadata = message.metadata;
+
+  // You may get a text or attachment but not both
+  var messageText = message.text;
+  var messageAttachments = message.attachments;
+
+  if (messageText) {
+    //send message to api.ai
+    sendToApiAi(senderID, messageText);
+  } else if (messageAttachments) {
+    handleMessageAttachments(messageAttachments, senderID);
+  }
+};
+
 
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
