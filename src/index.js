@@ -45,7 +45,7 @@ app.post('/webhook', (req, res) => {
   //checks this is an event from the page subscreption
 //  let webhook_event = entry.messaging[0];
 
-  console.log("------------------------------")
+  console.log("----------------- app post ")
   if (data.object === 'page'){
     console.log('post 2')
 
@@ -73,6 +73,7 @@ app.post('/webhook', (req, res) => {
 
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
+  console.log("send to api function ")
   let apiaiRequest = apiAiService.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
@@ -85,7 +86,7 @@ function sendToApiAi(sender, text) {
 
   apiaiRequest.on("error", error => console.error(error));
   apiaiRequest.end();
-}
+};
 
 
 /*
@@ -94,6 +95,7 @@ function sendToApiAi(sender, text) {
  *
  */
 const sendTypingOn = (recipientId) => {
+  console.log("send typing on ")
   var messageData = {
     recipient: {
       id: recipientId
@@ -112,6 +114,7 @@ const sendTypingOn = (recipientId) => {
 const callSendAPI = async (messageData) => {
 
   const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + process.env.Page_Access_Token;
+  console.log("callsendAPI ")
   await axios.post(url, messageData)
       .then(function (response) {
         if (response.status == 200) {
@@ -156,6 +159,8 @@ function handleApiAiResponse(sender, response) {
   let contexts = response.result.contexts;
   let parameters = response.result.parameters;
 
+
+  console.log("funcion handleApiResponse")
   sendTypingOff(sender);
 
   if (responseText == "" && !isDefined(action)) {
@@ -177,13 +182,14 @@ function handleApiAiResponse(sender, response) {
   } else if (isDefined(responseText)) {
     sendTextMessage(sender, responseText);
   }
-}
+};
 
 /*
  * Turn typing indicator off
  *
  */
 const sendTypingOff = (recipientId) => {
+  console.log("const send typing off")
   var messageData = {
     recipient: {
       id: recipientId
@@ -196,6 +202,7 @@ const sendTypingOff = (recipientId) => {
 
 
 const sendTextMessage = async (recipientId, text) => {
+  console.log("const send textMessage")
   var messageData = {
     recipient: {
       id: recipientId
@@ -209,6 +216,7 @@ const sendTextMessage = async (recipientId, text) => {
 
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
+  console.log("function handleApiAction")
   switch (action) {
     case "send-text":
       var responseText = "This is example of Text message."
