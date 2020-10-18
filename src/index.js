@@ -39,6 +39,37 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+app.post('/webhook', (req, res) => {
+  let data = req.body;
+
+  //checks this is an event from the page subscreption
+//  let webhook_event = entry.messaging[0];
+
+  console.log("------------------------------")
+  if (data.object === 'page'){
+    console.log('post 2')
+
+    //Iterates over each netry - there may be multiple if batched
+    data.entry.forEach(function(entry) {
+      //get the message enry messaging is an array , but
+      //will only ever contain one message , so we get index 0
+      console.log('post 3')
+      let webhook_event = entry.messaging[0];
+      console.log(webhook_event);
+    });
+    res.status(200).send('EVENT_RECEIVED');
+  } else {
+    //return a 404 not found if event is not from a page subscruption
+    console.log('post 4')
+    res.sendStatus(404);
+    data.entry.forEach(function(entry) {
+      //get the message enry messaging is an array , but
+      //will only ever contain one message , so we get index 0
+      let webhook_event = entry.messaging[0];
+      console.log(webhook_event);
+    });
+  }
+});
 
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
@@ -56,6 +87,23 @@ function sendToApiAi(sender, text) {
   apiaiRequest.end();
 }
 
+
+/*
+ *
+ * Turn typing indicator on
+ *
+ */
+const sendTypingOn = (recipientId) => {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+}
+
+
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
@@ -63,7 +111,7 @@ function sendToApiAi(sender, text) {
  */
 const callSendAPI = async (messageData) => {
 
-  const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + config.FB_PAGE_TOKEN;
+  const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + process.env.Page_Access_Token;
   await axios.post(url, messageData)
       .then(function (response) {
         if (response.status == 200) {
@@ -100,26 +148,63 @@ const isDefined = (obj) => {
 }
 
 
+function handleApiAiResponse(sender, response) {
+  let responseText = response.result.fulfillment.speech;
+  let responseData = response.result.fulfillment.data;
+  let messages = response.result.fulfillment.messages;
+  let action = response.result.action;
+  let contexts = response.result.contexts;
+  let parameters = response.result.parameters;
 
-// Handles messages events
-const handleMessage = (sender_psid, received_message) => {
-  let response;
+  sendTypingOff(sender);
 
-  if (received_message.text) {
-
+  if (responseText == "" && !isDefined(action)) {
+    //api ai could not evaluate input.
+    console.log("Unknown query" + response.result.resolvedQuery);
+    sendTextMessage(
+        sender,
+        "I'm not sure what you want. Can you be more specific?"
+    );
+  } else if (isDefined(action)) {
+    handleApiAiAction(sender, action, responseText, contexts, parameters);
+  } else if (isDefined(responseData) && isDefined(responseData.facebook)) {
+    try {
+      console.log("Response as formatted message" + responseData.facebook);
+      sendTextMessage(sender, responseData.facebook);
+    } catch (err) {
+      sendTextMessage(sender, err.message);
+    }
+  } else if (isDefined(responseText)) {
+    sendTextMessage(sender, responseText);
   }
 }
 
-//
-const handlePostback = (sender_psid, received_postback) => {
-  let response;
+/*
+ * Turn typing indicator off
+ *
+ */
+const sendTypingOff = (recipientId) => {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_off"
+  };
 
-  // Get the payload for the postback
-  let payload = received_postback.payload;
+  callSendAPI(messageData);
+}
 
-  if(payload === 'GET_STARTED'){
 
-  }
+const sendTextMessage = async (recipientId, text) => {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: text
+    }
+  };
+  await callSendAPI(messageData);
 }
 
 
@@ -133,38 +218,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
       //unhandled action, just send back the text
       sendTextMessage(sender, responseText);
   }
-}
+};
 
 
-app.post('/webhook', (req, res) => {
-  let data = req.body;
 
-  //checks this is an event from the page subscreption
-//  let webhook_event = entry.messaging[0];
-
-  console.log("------------------------------")
-  if (data.object === 'page'){
-    console.log('post 2')
-
-    //Iterates over each netry - there may be multiple if batched
-    data.entry.forEach(function(entry) {
-      //get the message enry messaging is an array , but
-      //will only ever contain one message , so we get index 0
-      console.log('post 3')
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-    });
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    //return a 404 not found if event is not from a page subscruption
-    console.log('post 4')
-    res.sendStatus(404);
-    data.entry.forEach(function(entry) {
-      //get the message enry messaging is an array , but
-      //will only ever contain one message , so we get index 0
-      console.log('post 3')
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-  });
-}
-});
