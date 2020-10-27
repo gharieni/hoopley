@@ -39,9 +39,16 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-app.post('/webhook', (req, res) => {
-  let data = req.body;
 
+
+const apiAiService = apiai(process.env.API_AI_CLIENT_ACCESS_TOKEN, {
+  language: "en",
+  requestSource: "fb"
+});
+const sessionIds = new Map();
+
+app.post('/webhook', (req, res) => {
+  var data = req.body;
   // Make sure this is a page subscription
   if (data.object == "page") {
     // Iterate over each entry
@@ -68,20 +75,10 @@ app.post('/webhook', (req, res) => {
 
 
 
-
 function receivedMessage(event) {
   var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  if (!sessionIds.has(senderID)) {
-    sessionIds.set(senderID, uuid.v1());
-  }
-
-  var messageId = message.mid;
-  var appId = message.app_id;
-  var metadata = message.metadata;
 
   // You may get a text or attachment but not both
   var messageText = message.text;
@@ -93,12 +90,13 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
     handleMessageAttachments(messageAttachments, senderID);
   }
-};
+}
+
 
 
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
-  console.log("send to api function ")
+  console.log("send to api function ");
   let apiaiRequest = apiAiService.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
