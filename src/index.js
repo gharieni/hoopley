@@ -1,4 +1,6 @@
 require('dotenv').config({ path: 'variables.env' });
+const apiai = require("apiai");
+
 
 const dialogflow = require('@google-cloud/dialogflow').v2beta1;
 const express = require('express');
@@ -38,8 +40,6 @@ app.get('/webhook', (req, res) => {
     console.log('verify token do not match')
   }
 });
-
-
 
 const apiAiService = apiai(process.env.API_AI_CLIENT_ACCESS_TOKEN, {
   language: "en",
