@@ -1,5 +1,7 @@
 require('dotenv').config({ path: 'variables.env' });
 const apiai = require("apiai");
+const axios = require('axios');
+
 
 
 const dialogflow = require('@google-cloud/dialogflow').v2beta1;
