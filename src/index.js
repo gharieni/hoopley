@@ -44,7 +44,7 @@ app.get('/webhook', (req, res) => {
 const sessionClient = new dialogflow.SessionsClient({
   keyFilename: 'care-me-almvrf-key.json'
 });
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+const sessionPath = sessionClient.sessionPath(project_id, sessionId);
 //******************************************************
 
 app.post('/webhook', (req, res) => {
