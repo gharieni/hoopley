@@ -1,13 +1,9 @@
-require('dotenv').config({ path: 'variables.env' });
-const apiai = require("apiai");
 const axios = require('axios');
 
-
-
 const dialogflow = require('@google-cloud/dialogflow').v2beta1;
+const uuid = require('uuid');
 const express = require('express');
 const bodyParser = require('body-parser');
-
 
 const app = express();
 
@@ -24,7 +20,7 @@ var server = app.listen(process.env.PORT || 5000, function () {
 app.get('/webhook', (req, res) => {
   //parse the query params
   let mode = req.query['hub.mode'];
-  let token = req.query['hub.verify_token'];
+  let token = req.query['process.env.Page.verify_token'];
   let challenge = req.query['hub.challenge'];
 
   console.log('hello 2')
@@ -43,11 +39,13 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-const apiAiService = apiai(process.env.API_AI_CLIENT_ACCESS_TOKEN, {
-  language: "en",
-  requestSource: "fb"
+
+//******************************************************
+const sessionClient = new dialogflow.SessionsClient({
+  keyFilename: 'care-me-almvrf-key.json'
 });
-const sessionIds = new Map();
+const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+//******************************************************
 
 app.post('/webhook', (req, res) => {
   var data = req.body;
@@ -221,7 +219,6 @@ const sendTypingOff = (recipientId) => {
     },
     sender_action: "typing_off"
   };
-
   callSendAPI(messageData);
 }
 
@@ -252,6 +249,3 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
       sendTextMessage(sender, responseText);
   }
 };
-
-
-
