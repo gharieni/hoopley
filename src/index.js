@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const express = require('express');
 const bodyParser = require('body-parser');
 const sessionId = 'hophophop';
-const project_id = 'care-me-almvrf';
+const projectId = 'care-me-almvrf';
 
 const app = express();
 
