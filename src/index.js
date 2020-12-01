@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const dialogflow = require('@google-cloud/dialogflow').v2beta1;
+const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -44,7 +44,7 @@ app.get('/webhook', (req, res) => {
 const sessionClient = new dialogflow.SessionsClient({
   keyFilename: 'care-me-almvrf-key.json'
 });
-const sessionPath = sessionClient.sessionPath(project_id, sessionId);
+const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 //******************************************************
 
 app.post('/webhook', (req, res) => {
