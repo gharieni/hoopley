@@ -13,6 +13,8 @@ const app = express();
 async function runSample(projectId = 'care-me-almvrf') {
 const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+console.log('sucessful connect to dialogflow');
+console.log(sessioId);
    };
 //******************************************************
 
