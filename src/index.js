@@ -102,7 +102,7 @@ function receivedMessage(event) {
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
   console.log("send to api function ");
-  let apiaiRequest = apiAiService.textRequest(text, {
+  let apiaiRequest = sessionPath.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
