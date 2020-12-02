@@ -4,10 +4,19 @@ const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const express = require('express');
 const bodyParser = require('body-parser');
-const sessionIds = new Map();
+const sessionId = uuid.v4();;
 const projectId = 'care-me-almvrf';
 
 const app = express();
+
+//******************************************************
+async function runSample(projectId = 'care-me-almvrf') {
+const sessionClient = new dialogflow.SessionsClient();
+const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+   };
+//******************************************************
+
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,14 +49,6 @@ app.get('/webhook', (req, res) => {
     console.log('verify token do not match')
   }
 });
-
-
-//******************************************************
-const sessionClient = new dialogflow.SessionsClient({
-  keyFilename: 'care-me-almvrf-key.json'
-});
-const sessionPath = sessionClient.sessionPath(projectId, sessionIds);
-//******************************************************
 
 app.post('/webhook', (req, res) => {
   var data = req.body;
