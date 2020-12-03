@@ -78,8 +78,8 @@ app.post('/webhook', (req, res) => {
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.message) {
-          receivedMessage(messagingEvent);
           console.log(messagingEvent.message);
+          receivedMessage(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ",messagingEvent);
         }
