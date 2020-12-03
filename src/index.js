@@ -15,9 +15,22 @@ const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 console.log('sucessful connect to dialogflow');
 console.log(sessioId);
+    // The text query request.
+  const request = {
+    session: sessionPath,
+    queryInput: {
+      text: {
+        // The query to send to the dialogflow agent
+        text: 'hello',
+        // The language used by the client (en-US)
+        languageCode: 'en-US',
+      },
+    },
    };
+const responses = await sessionClient.detectIntent(request);
+console.log('Detected intent');
+}
 //******************************************************
-
 
 
 app.use(bodyParser.json());
