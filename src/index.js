@@ -29,7 +29,7 @@ console.log(sessioId);
    };
 const responses = await sessionClient.detectIntent(request);
 console.log('Detected intent');
-}
+};
 //******************************************************
 
 
@@ -63,6 +63,7 @@ app.get('/webhook', (req, res) => {
     res.sendStatus(403);
     console.log('verify token do not match')
   }
+  console.log("-- app get webhook ");
 });
 
 app.post('/webhook', (req, res) => {
@@ -78,7 +79,8 @@ app.post('/webhook', (req, res) => {
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.message) {
-          console.log(messagingEvent.message);
+          runSample();
+          console.dir(messagingEvent);
           receivedMessage(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ",messagingEvent);
@@ -89,6 +91,7 @@ app.post('/webhook', (req, res) => {
     // You must send back a 200, within 20 seconds
     res.sendStatus(200);
   }
+  console.log("-- app post  ");
 });
 
 
@@ -109,6 +112,9 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
     handleMessageAttachments(messageAttachments, senderID);
   }
+
+  console.log("-- receive message function   ");
+
 }
 
 
@@ -128,6 +134,7 @@ function sendToApiAi(sender, text) {
 
   apiaiRequest.on("error", error => console.error(error));
   apiaiRequest.end();
+  console.log("-- send to api function   ");
 };
 
 
