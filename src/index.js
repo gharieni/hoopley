@@ -122,7 +122,13 @@ function receivedMessage(event) {
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
   console.log("send to api function ");
-  let apiaiRequest = sessionPath.textRequest(text, {
+  // is here the big problem with sessionPath.tect request 
+  // 
+  //
+  //
+  //
+  //
+  let apiaiRequest = sessionClient.sessionPath.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
