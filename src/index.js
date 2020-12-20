@@ -10,9 +10,9 @@ const projectId = 'care-me-almvrf';
 const app = express();
 //******************************************************
 async function runSample(projectId = 'care-me-almvrf') {
+console.log('begin of connection');
 const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-module.exports.sessionClient.sessionPath = sessionClient.sessionPath;
 console.log('sucessful connect to dialogflow');
 console.log(sessioId);
     // The text query request.
