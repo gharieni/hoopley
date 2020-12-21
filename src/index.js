@@ -85,7 +85,7 @@ app.post('/webhook', (req, res) => {
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.message) {
-          runSample();
+          //runSample();
           console.dir(messagingEvent);
           receivedMessage(messagingEvent);
         } else {
