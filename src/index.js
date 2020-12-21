@@ -8,8 +8,11 @@ const sessionId = uuid.v4();;
 const projectId = 'care-me-almvrf';
 
 const app = express();
+
+
 //******************************************************
-async function runSample(projectId = 'care-me-almvrf') {
+/*
+async function runSample(projectId, sessionId) {
 console.log('begin of connection');
 const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
@@ -21,7 +24,7 @@ console.log(sessioId);
     queryInput: {
       text: {
         // The query to send to the dialogflow agent
-        text: 'hello',
+        text: 'hello men',
         // The language used by the client (en-US)
         languageCode: 'en-US',
       },
@@ -30,8 +33,11 @@ console.log(sessioId);
 const responses = await sessionClient.detectIntent(request);
 console.log('Detected intent');
 };
+*/
 //******************************************************
 
+const sessionClient = new dialogflow.SessionsClient();
+//const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
