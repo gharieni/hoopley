@@ -8,6 +8,14 @@ const projectId = 'care-me-almvrf';
 
 
 const app = express();
+const sessionClient = new dialogflow.SessionsClient();
+//const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+const sessionPath = sessionClient.projectAgentSessionPath(
+  projectId,
+  sessionId
+);
+
+
 
 
 //******************************************************
@@ -18,14 +26,14 @@ const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 console.log('sucessful connect to dialogflow');
 console.log(sessioId);
-    // The text query request.
+// The text query request.
   const request = {
     session: sessionPath,
     queryInput: {
       text: {
         // The query to send to the dialogflow agent
         text: 'hello men',
-        // The language used by the client (en-US)
+          // The language used by the client (en-US)
         languageCode: 'en-US',
       },
     },
@@ -34,18 +42,15 @@ const responses = await sessionClient.detectIntent(request);
 console.log('Detected intent');
 };
 */
-//******************************************************
-const sessionClient = new dialogflow.SessionsClient();
-//const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+        //******************************************************
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-//set server port and log message
-var server = app.listen(process.env.PORT || 5000, function () {
-  var port = server.address().port;
-  console.log("Express is working on port " + port);
-});
+        //set server port and log message
+        var server = app.listen(process.env.PORT || 5000, function () {
+          var port = server.address().port;
+          console.log("Express is working on port " + port);
+        });
 
 
 // adds support for Get request to the webhook
@@ -61,7 +66,7 @@ app.get('/webhook', (req, res) => {
     // checks the mode and tokn sent is correct
     console.log('hello 3')
     if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN)
-        //  response with the challange token from the request
+      //  response with the challange token from the request
       console.log('WEBHOOK_VERIFIED');
     res.status(200).send(challenge);
   } else {
@@ -177,27 +182,27 @@ const callSendAPI = async (messageData) => {
   const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + process.env.Page_Access_Token;
   console.log("callsendAPI ")
   await axios.post(url, messageData)
-      .then(function (response) {
-        if (response.status == 200) {
-          var recipientId = response.data.recipient_id;
-          var messageId = response.data.message_id;
-          if (messageId) {
-            console.log(
-                "Successfully sent message with id %s to recipient %s",
-                messageId,
-                recipientId
-            );
-          } else {
-            console.log(
-                "Successfully called Send API for recipient %s",
-                recipientId
-            );
-          }
+    .then(function (response) {
+      if (response.status == 200) {
+        var recipientId = response.data.recipient_id;
+        var messageId = response.data.message_id;
+        if (messageId) {
+          console.log(
+            "Successfully sent message with id %s to recipient %s",
+            messageId,
+            recipientId
+          );
+        } else {
+          console.log(
+            "Successfully called Send API for recipient %s",
+            recipientId
+          );
         }
-      })
-      .catch(function (error) {
-        console.log(error.response.headers);
-      });
+      }
+    })
+    .catch(function (error) {
+      console.log(error.response.headers);
+    });
 }
 
 
@@ -228,8 +233,8 @@ function handleApiAiResponse(sender, response) {
     //api ai could not evaluate input.
     console.log("Unknown query" + response.result.resolvedQuery);
     sendTextMessage(
-        sender,
-        "I'm not sure what you want. Can you be more specific?"
+      sender,
+      "I'm not sure what you want. Can you be more specific?"
     );
   } else if (isDefined(action)) {
     handleApiAiAction(sender, action, responseText, contexts, parameters);
