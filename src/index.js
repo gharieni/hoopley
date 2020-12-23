@@ -1,11 +1,11 @@
 const axios = require('axios');
-
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const express = require('express');
 const bodyParser = require('body-parser');
 const sessionId = uuid.v4();;
 const projectId = 'care-me-almvrf';
+
 
 const app = express();
 
@@ -35,7 +35,6 @@ console.log('Detected intent');
 };
 */
 //******************************************************
-
 const sessionClient = new dialogflow.SessionsClient();
 //const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
@@ -47,6 +46,7 @@ var server = app.listen(process.env.PORT || 5000, function () {
   var port = server.address().port;
   console.log("Express is working on port " + port);
 });
+
 
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
@@ -107,7 +107,6 @@ function receivedMessage(event) {
   var senderID = event.sender.id;
   var message = event.message;
 
-
   // You may get a text or attachment but not both
   var messageText = message.text;
   var messageAttachments = message.attachments;
@@ -134,12 +133,13 @@ function sendToApiAi(sender, text) {
   //
   //
   //
-  let apiaiRequest = sessionClient.sessionPath.textRequest(text, {
+  let apiaiRequest = sessionPath.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
   apiaiRequest.on("response", response => {
     if (isDefined(response.result)) {
+      console.log("hello api request");
       handleApiAiResponse(sender, response);
     }
   });
