@@ -138,7 +138,7 @@ function sendToApiAi(sender, text) {
   //
   //
   //
-  let apiaiRequest = sessionPath.textRequest(text, {
+  let apiaiRequest = apiAiService.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
