@@ -139,9 +139,9 @@ function sendToApiAi(sender, text) {
   //
   //
   //
-  let apiaiRequest = sessionClient.textRequest(text, {
-    sessionId: sessionIds.get(sender)
-  });
+ // let apiaiRequest = sessionClient.textRequest(text, {
+  //  sessionId: sessionIds.get(sender)
+ // });
 
   apiaiRequest.on("response", response => {
     if (isDefined(response.result)) {
