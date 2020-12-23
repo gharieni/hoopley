@@ -14,6 +14,7 @@ const sessionPath = sessionClient.projectAgentSessionPath(
   projectId,
   sessionId
 );
+const sessionIds = new Map();
 
 
 
@@ -138,7 +139,7 @@ function sendToApiAi(sender, text) {
   //
   //
   //
-  let apiaiRequest = apiAiService.textRequest(text, {
+  let apiaiRequest = sessionPath.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
