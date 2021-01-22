@@ -3,56 +3,24 @@ const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const express = require('express');
 const bodyParser = require('body-parser');
-const sessionId = uuid.v4();;
-const projectId = 'care-me-almvrf';
-
-
 const app = express();
-const sessionClient = new dialogflow.SessionsClient();
-//const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-const sessionPath = sessionClient.projectAgentSessionPath(
-  projectId,
-  sessionId
-);
-const sessionIds = new Map();
 
 
+/* *****************************************************
+ * express server
+   *****************************************************  */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+//set express server 
+var server = app.listen(process.env.PORT || 5000, function () {
+  var port = server.address().port;
+  console.log("Express is working on port " + port);
+});
 
 
-//******************************************************
-/*
-async function runSample(projectId, sessionId) {
-console.log('begin of connection');
-const sessionClient = new dialogflow.SessionsClient();
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-console.log('sucessful connect to dialogflow');
-console.log(sessioId);
-// The text query request.
-  const request = {
-    session: sessionPath,
-    queryInput: {
-      text: {
-        // The query to send to the dialogflow agent
-        text: 'hello men',
-          // The language used by the client (en-US)
-        languageCode: 'en-US',
-      },
-    },
-   };
-const responses = await sessionClient.detectIntent(request);
-console.log('Detected intent');
-};
-*/
-        //******************************************************
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({ extended: true }));
-
-        //set server port and log message
-        var server = app.listen(process.env.PORT || 5000, function () {
-          var port = server.address().port;
-          console.log("Express is working on port " + port);
-        });
-
+/* *****************************************************
+ * facebook verification endpoint
+   *****************************************************  */
 
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
@@ -77,6 +45,8 @@ app.get('/webhook', (req, res) => {
   }
   console.log("-- app get webhook ");
 });
+
+
 
 app.post('/webhook', (req, res) => {
   var data = req.body;
@@ -105,6 +75,31 @@ app.post('/webhook', (req, res) => {
   }
   console.log("-- app post  ");
 });
+
+
+
+/* *****************************************************
+ * setup dialogflow integration 
+   *****************************************************  */
+
+const projectId = 'care-me-almvrf';
+const sessionId = uuid.v4();
+const languageCode = 'en-US';
+
+const config = {
+  credentials: {
+    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
+    client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
+  }
+};
+
+
+const sessionClient = new dialogflow.SessionsClient(config);
+const sessionPath = sessionClient.projectAgentSessionPath(
+  projectId,
+  sessionId
+);
+const sessionIds = new Map();
 
 
 
@@ -139,9 +134,9 @@ function sendToApiAi(sender, text) {
   //
   //
   //
- // let apiaiRequest = sessionClient.textRequest(text, {
-  //  sessionId: sessionIds.get(sender)
- // });
+  let apiaiRequest = sessionClient.textRequest(text, {
+    sessionId: sessionIds.get(sender)
+  });
 
   apiaiRequest.on("response", response => {
     if (isDefined(response.result)) {
