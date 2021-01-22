@@ -8,7 +8,7 @@ const app = express();
 
 /* *****************************************************
  * express server
-   *****************************************************  */
+ *****************************************************  */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //set express server 
@@ -20,7 +20,7 @@ var server = app.listen(process.env.PORT || 5000, function () {
 
 /* *****************************************************
  * facebook verification endpoint
-   *****************************************************  */
+ *****************************************************  */
 
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
@@ -80,7 +80,7 @@ app.post('/webhook', (req, res) => {
 
 /* *****************************************************
  * setup dialogflow integration 
-   *****************************************************  */
+ *****************************************************  */
 
 const projectId = 'care-me-almvrf';
 const sessionId = uuid.v4();
@@ -127,20 +127,13 @@ function receivedMessage(event) {
 
 function sendToApiAi(sender, text) {
   sendTypingOn(sender);
-  console.log("send to api function ");
-  // is here the big problem with sessionPath.tect request 
-  // 
-  //
-  //
-  //
-  //
   let apiaiRequest = apiAiService.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
   apiaiRequest.on("response", response => {
     if (isDefined(response.result)) {
-      console.log("hello api request");
+      console.log(response);
       handleApiAiResponse(sender, response);
     }
   });
@@ -157,7 +150,6 @@ function sendToApiAi(sender, text) {
  *
  */
 const sendTypingOn = (recipientId) => {
-  console.log("send typing on ")
   var messageData = {
     recipient: {
       id: recipientId
