@@ -106,7 +106,7 @@ const sessionIds = new Map();
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
-  var message = event.message;
+  var message = event.message.text;
 
   // You may get a text or attachment but not both
   var messageText = message.text;
@@ -134,7 +134,7 @@ function sendToApiAi(sender, text) {
   //
   //
   //
-  let apiaiRequest = sessionClient.textRequest(text, {
+  let apiaiRequest = apiAiService.textRequest(text, {
     sessionId: sessionIds.get(sender)
   });
 
