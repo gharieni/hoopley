@@ -113,7 +113,6 @@ function receivedMessage(event) {
 
   if (messageText) {
     //send message to api.ai
-    console,log("function receiveMessage    send to api");
     sendToApiAi(senderID, messageText);
   } else if (messageAttachments) {
     console.log("handleMesage in function recieve nessage");
