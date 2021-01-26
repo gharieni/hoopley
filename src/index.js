@@ -104,7 +104,6 @@ const sessionIds = new Map();
 
 
 function receivedMessage(event) {
-  console,log("function receiveMessage ")
   var senderID = event.sender.id;
   var message = event.message.text;
 
@@ -112,6 +111,7 @@ function receivedMessage(event) {
   var messageText = message.text;
   var messageAttachments = message.attachments;
 
+  console,log("function receiveMessage ");
   if (messageText) {
     //send message to api.ai
     sendToApiAi(senderID, messageText);
