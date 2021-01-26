@@ -105,7 +105,7 @@ const sessionIds = new Map();
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
-  var message = event.message.text;
+  var message = event.message;
 
   // You may get a text or attachment but not both
   var messageText = message.text;
@@ -119,9 +119,7 @@ function receivedMessage(event) {
     console.log("handleMesage in function recieve nessage");
     handleMessageAttachments(messageAttachments, senderID);
   }
-
   console.log("-- receive message function   ");
-
 }
 
 
