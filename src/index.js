@@ -29,26 +29,25 @@ app.get('/webhook', (req, res) => {
   let token = req.query['process.env.Page.verify_token'];
   let challenge = req.query['hub.challenge'];
 
-  console.log('hello 2')
+  
+  console.log("-- request to messanger ");
   //check if a token and mode is in the query string of the request
   if (mode && token){
     // checks the mode and tokn sent is correct
     console.log('hello 3')
     if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN)
       //  response with the challange token from the request
-      console.log('WEBHOOK_VERIFIED');
     res.status(200).send(challenge);
   } else {
     // Respond with 403 Forbidden if verify tokens do not match
     res.sendStatus(403);
-    console.log('verify token do not match')
   }
-  console.log("-- app get webhook ");
 });
 
 
 
 app.post('/webhook', (req, res) => {
+  console.log("--begin app post")
   var data = req.body;
   // Make sure this is a page subscription
   if (data.object == "page") {
@@ -73,7 +72,7 @@ app.post('/webhook', (req, res) => {
     // You must send back a 200, within 20 seconds
     res.sendStatus(200);
   }
-  console.log("-- app post  ");
+  console.log("-- fin  ");
 });
 
 
@@ -105,6 +104,7 @@ const sessionIds = new Map();
 
 
 function receivedMessage(event) {
+  console,log("function receiveMessage ")
   var senderID = event.sender.id;
   var message = event.message.text;
 
@@ -116,6 +116,7 @@ function receivedMessage(event) {
     //send message to api.ai
     sendToApiAi(senderID, messageText);
   } else if (messageAttachments) {
+    console.log("handleMesage in function recieve nessage");
     handleMessageAttachments(messageAttachments, senderID);
   }
 
@@ -126,6 +127,7 @@ function receivedMessage(event) {
 
 
 function sendToApiAi(sender, text) {
+  console.log("function sendToApi");
   sendTypingOn(sender);
   let apiaiRequest = apiAiService.textRequest(text, {
     sessionId: sessionIds.get(sender)
@@ -150,6 +152,7 @@ function sendToApiAi(sender, text) {
  *
  */
 const sendTypingOn = (recipientId) => {
+  console.log("const sendTypingOn")
   var messageData = {
     recipient: {
       id: recipientId
@@ -166,7 +169,9 @@ const sendTypingOn = (recipientId) => {
  *
  */
 const callSendAPI = async (messageData) => {
-
+  
+  
+  console.log("const callsendAPI");
   const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + process.env.Page_Access_Token;
   console.log("callsendAPI ")
   await axios.post(url, messageData)
@@ -195,6 +200,7 @@ const callSendAPI = async (messageData) => {
 
 
 const isDefined = (obj) => {
+  console.log("is Defined")
   if (typeof obj == "undefined") {
     return false;
   }
@@ -255,7 +261,8 @@ const sendTypingOff = (recipientId) => {
 
 
 const sendTextMessage = async (recipientId, text) => {
-  console.log("const send textMessage")
+  console.log("const sendtextMessage text :")
+  console.log(text);
   var messageData = {
     recipient: {
       id: recipientId
@@ -269,9 +276,9 @@ const sendTextMessage = async (recipientId, text) => {
 
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
-  console.log("function handleApiAction")
+  console.log("function handleApiAction");
   switch (action) {
-    case "send-text":
+    case "input.welcome":
       var responseText = "This is example of Text message."
       sendTextMessage(sender, responseText);
       break;
