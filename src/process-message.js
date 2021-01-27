@@ -8,7 +8,7 @@ const uuid = require('uuid');
 const projectId = 'care-me-almvrf';
 const sessionId = uuid.v4();
 const languageCode = 'en-US';
-var privateKey = (!isNaN(process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\+/g," ") : null;
+var privateKey = (!isNaN(process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n') : null;
 
 //var privateKey  = process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n');
 //var private = JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY);
