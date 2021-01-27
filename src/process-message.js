@@ -11,8 +11,8 @@ const languageCode = 'en-US';
 var privateKey = (!isNaN(process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n') : null;
 
 //var privateKey  = process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n');
-//var private = JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY);
-//var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY) : process.env.DIALOGFLOW_PRIVATE_KEY
+//var privateKey  = JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY);
+var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY) : null;
 
 const config = {
   credentials: {
