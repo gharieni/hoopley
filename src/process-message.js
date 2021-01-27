@@ -22,7 +22,6 @@ const sessionPath = sessionClient.projectAgentSessionPath(
   projectId,
   sessionId
 );
-const sessionIds = new Map();
 const sendTextMessage = (userId, text) => {
   return fetch(
   `https://graph.facebook.com/v3.0/me/messages?access_token=` + process.env.Page_Access_Token,

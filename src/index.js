@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 
+
 /* *****************************************************
  * express server
  *****************************************************  */
@@ -28,12 +29,9 @@ app.get('/webhook', (req, res) => {
   let token = req.query['process.env.Page.verify_token'];
   let challenge = req.query['hub.challenge'];
 
-  
-  console.log("-- request to messanger ");
   //check if a token and mode is in the query string of the request
   if (mode && token){
     // checks the mode and tokn sent is correct
-    console.log('hello 3')
     if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN)
       //  response with the challange token from the request
     res.status(200).send(challenge);
