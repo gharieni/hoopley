@@ -12,7 +12,8 @@ var privateKey = (!isNaN(process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIAL
 
 //var privateKey  = process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n');
 //var privateKey  = JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY);
-var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY) : null;
+var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\\n/g, '\n') : null;
+//JSON.parse(process.env.PRIVATE_KEY).replace(/\\n/g, '\n')
 
 const config = {
   credentials: {
