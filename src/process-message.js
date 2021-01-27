@@ -11,7 +11,8 @@ const languageCode = 'en-US';
 
 const config = {
   credentials: {
-    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
+    private_key: (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY) : process.env.DIALOGFLOW_PRIVATE_KEY,
+
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
   }
 };
