@@ -21,6 +21,9 @@ var server = app.listen(process.env.PORT || 5000, function () {
 /* *****************************************************
  * facebook verification endpoint
  *****************************************************  */
+const verifyWebhook = require(./verify-webhook);
+app.get('/webhook', verifyWebhook);
+
 
 // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
