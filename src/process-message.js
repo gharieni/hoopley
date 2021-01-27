@@ -11,15 +11,17 @@ const languageCode = 'en-US';
 
 //var privatekey = process.env.DIALOGFLOW_PRIVATE_KEY;
 //var private = JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY);
+var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY) : process.env.DIALOGFLOW_PRIVATE_KEY
+
 const config = {
   credentials: {
-    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
+   // private_key: process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\n/g, '\n'),
   //  private_key: (!isNaN( process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\n/g, '\n') : null,
-   // private_key: private,
+    private_key: privateKey,
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
   }
 };
-//console.log(config.credentials.private_key);
+console.log(config.credentials.private_key);
 
 const sessionClient = new dialogflow.SessionsClient(config);
 const sessionPath = sessionClient.projectAgentSessionPath(
