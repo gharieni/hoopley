@@ -62,7 +62,7 @@ app.post('/webhook', (req, res) => {
         if (messagingEvent.message) {
           //runSample();
           console.dir(messagingEvent);
-          receivedMessage(messagingEvent);
+       //   receivedMessage(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ",messagingEvent);
         }
@@ -99,10 +99,50 @@ const sessionPath = sessionClient.projectAgentSessionPath(
   sessionId
 );
 const sessionIds = new Map();
+const sendTextMessage = (userId, text) => {
+  return fetch(
+  `https://graph.facebook.com/v3.0/me/messages?access_token=` + process.env.Page_Access_Token,
+    {
+      header: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        messaging_type: 'RESPONSE',
+        recipient: {
+          id: userId,
+        },
+        message: {
+          text,
+        },
+        }),
+    }
+  );
+}
 
+module.exports = (event) => {
+  const userId = event.sender.id;
+  const message = event.message.text;
 
+  const request = {
+    session: sessionPath,
+    queryInput: {
+      text: {
+        text: message,
+        languageCode: languageCode,
+      },
+    },
+  };
+  sessionClient.detectIntent(request).then(response => {
+    const result = response[0].queryResult;
+    return sendTextMessage(userId, result.fulfillmentText);
+  })
+    .catch(err => {
+      console.error('ERROR', err);
+    });
+}
 
-
+/*
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var message = event.message;
@@ -148,6 +188,7 @@ function sendToApiAi(sender, text) {
  * Turn typing indicator on
  *
  */
+/*
 const sendTypingOn = (recipientId) => {
   console.log("const sendTypingOn")
   var messageData = {
@@ -165,6 +206,7 @@ const sendTypingOn = (recipientId) => {
  * get the message id in a response
  *
  */
+/*
 const callSendAPI = async (messageData) => {
   
   
@@ -245,6 +287,9 @@ function handleApiAiResponse(sender, response) {
  * Turn typing indicator off
  *
  */
+/*
+
+
 const sendTypingOff = (recipientId) => {
   console.log("const send typing off")
   var messageData = {
@@ -284,3 +329,4 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
       sendTextMessage(sender, responseText);
   }
 };
+*/
