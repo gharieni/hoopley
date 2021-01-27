@@ -45,7 +45,7 @@ app.get('/webhook', (req, res) => {
 });
 
 
-
+/*
 app.post('/webhook', (req, res) => {
   console.log("--begin app post")
   var data = req.body;
@@ -74,7 +74,7 @@ app.post('/webhook', (req, res) => {
   }
   console.log("-- fin  ");
 });
-
+*/
 
 
 /* *****************************************************
@@ -142,6 +142,8 @@ module.exports = (event) => {
     });
 }
 
+const messageWebhook = require('./message-webhook');
+app.post('/', messageWebhook);
 /*
 function receivedMessage(event) {
   var senderID = event.sender.id;

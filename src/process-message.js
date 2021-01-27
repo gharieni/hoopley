@@ -1,11 +1,13 @@
-const fetch = require('node-fetch');
 
-// You can find your project ID in your Dialogflow agent settings
-const projectId = "care-me-almvrf"
-const sessionId = '123456';
+/* *****************************************************
+ * setup dialogflow integration 
+ *****************************************************  */
+
+const dialogflow = require('@google-cloud/dialogflow');
+const uuid = require('uuid');
+const projectId = 'care-me-almvrf';
+const sessionId = uuid.v4();
 const languageCode = 'en-US';
-
-const dialogflow = require('dialogflow');
 
 const config = {
   credentials: {
@@ -14,19 +16,18 @@ const config = {
   }
 };
 
+
 const sessionClient = new dialogflow.SessionsClient(config);
-
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-
-// Remember the Page Access Token you got from Facebook earlier?
-// Don't forget to add it to your `variables.env` file.
-const { FACEBOOK_ACCESS_TOKEN } = process.env;
-
+const sessionPath = sessionClient.projectAgentSessionPath(
+  projectId,
+  sessionId
+);
+const sessionIds = new Map();
 const sendTextMessage = (userId, text) => {
   return fetch(
-    `https://graph.facebook.com/v2.6/me/messages?access_token=${FACEBOOK_ACCESS_TOKEN}`,
+  `https://graph.facebook.com/v3.0/me/messages?access_token=` + process.env.Page_Access_Token,
     {
-      headers: {
+      header: {
         'Content-Type': 'application/json',
       },
       method: 'POST',
@@ -38,7 +39,7 @@ const sendTextMessage = (userId, text) => {
         message: {
           text,
         },
-      }),
+        }),
     }
   );
 }
@@ -56,15 +57,11 @@ module.exports = (event) => {
       },
     },
   };
-
-  sessionClient
-    .detectIntent(request)
-    .then(responses => {
-      const result = responses[0].queryResult;
-      return sendTextMessage(userId, result.fulfillmentText);
-    })
+  sessionClient.detectIntent(request).then(response => {
+    const result = response[0].queryResult;
+    return sendTextMessage(userId, result.fulfillmentText);
+  })
     .catch(err => {
-      console.error('ERROR:', err);
+      console.error('ERROR', err);
     });
 }
-
