@@ -1,1 +1,2 @@
-web: node --inspect=9090 index.js
+web: node index.js
+webDebug: node --debug-brk=5858 index.js
