@@ -1,3 +1,4 @@
+require ('newrelic');
 const axios = require('axios');
 const dialogflow = require('@google-cloud/dialogflow');
 const express = require('express');
