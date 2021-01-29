@@ -2,24 +2,17 @@
 /* *****************************************************
  * setup dialogflow integration 
  *****************************************************  */
+const fetch = require('node-fetch');
 
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const projectId = 'care-me-almvrf';
 const sessionId = uuid.v4();
 const languageCode = 'en-US';
-var privateKey = (!isNaN(process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n') : null;
 
-//var privateKey  = process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n');
-//var privateKey  = JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY);
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
-// valid var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\\n/g, '\n') : null;
-//JSON.parse(process.env.PRIVATE_KEY).replace(/\\n/g, '\n')
-
 const config = {
   credentials: {
-   // private_key: process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\n/g, '\n'),
-  //  private_key: (!isNaN( process.env.DIALOGFLOW_PRIVATE_KEY)) ? process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\n/g, '\n') : null,
     private_key: privateKey,
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
   }
