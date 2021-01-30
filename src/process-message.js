@@ -49,6 +49,7 @@ module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
 
+  console.log("module export")
   const request = {
     session: sessionPath,
     queryInput: {
