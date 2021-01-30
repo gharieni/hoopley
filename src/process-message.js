@@ -25,6 +25,7 @@ const sessionPath = sessionClient.projectAgentSessionPath(
 );
 const sendTextMessage = (userId, text) => {
   console.log("sendTextMessage")
+  console.log(text)
   return fetch(
   `https://graph.facebook.com/v3.0/me/messages?access_token=` + process.env.Page_Access_Token,
     {
@@ -60,7 +61,6 @@ module.exports = (event) => {
     },
   };
   sessionClient.detectIntent(request).then(response => {
-    console.dir(response);
     const result = response[0].queryResult;
     return sendTextMessage(userId, result.fulfillmentText);
   })
