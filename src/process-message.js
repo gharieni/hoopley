@@ -17,7 +17,6 @@ const config = {
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
   }
 };
-console.log(config.credentials.private_key);
 
 const sessionClient = new dialogflow.SessionsClient(config);
 const sessionPath = sessionClient.projectAgentSessionPath(
@@ -25,6 +24,7 @@ const sessionPath = sessionClient.projectAgentSessionPath(
   sessionId
 );
 const sendTextMessage = (userId, text) => {
+  console.log("sendTextMessage")
   return fetch(
   `https://graph.facebook.com/v3.0/me/messages?access_token=` + process.env.Page_Access_Token,
     {
