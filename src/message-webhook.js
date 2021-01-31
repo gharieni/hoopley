@@ -10,6 +10,9 @@ module.exports = (req, res) => {
       });
     });
 
-    res.status(200).end();
+    res.status(200).send("event receive");
+  }
+  else{
+    res.sendStatus(404);
   }
 };
