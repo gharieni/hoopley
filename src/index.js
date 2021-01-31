@@ -35,7 +35,7 @@ app.post('/webhook', (req, res) => {
       pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.message) {
           //runSample();
-          let webhook_event = entry.messaging[0];
+          let webhook_event = messagingEvent.messaging[0];
           console.log(webhook_event);
           console.dir(messagingEvent);
           //   receivedMessage(messagingEvent);
