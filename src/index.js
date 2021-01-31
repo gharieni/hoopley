@@ -30,19 +30,20 @@ app.post('/webhook', (req, res) => {
     // Iterate over each entry
     // There may be multiple if batched
     data.entry.forEach(function (pageEntry) {
+      let webhook_event = pageEntry.messaging[0];
+      console.log(webhook_event);
+
 
       // Iterate over each messaging event
-      pageEntry.messaging.forEach(function (messagingEvent) {
-        if (messagingEvent.message) {
-          //runSample();
-          let webhook_event = messagingEvent.messaging[0];
-          console.log(webhook_event);
-          console.dir(messagingEvent);
-          //   receivedMessage(messagingEvent);
-        } else {
-          console.log("Webhook received unknown messagingEvent: ",messagingEvent);
-        }
-      });
+      //   pageEntry.messaging.forEach(function (messagingEvent) {
+      //    if (messagingEvent.message) {
+      //runSample();
+      //         console.dir(messagingEvent);
+      //         //   receivedMessage(messagingEvent);
+      //      } else {
+      //      console.log("Webhook received unknown messagingEvent: ",messagingEvent);
+      //     }
+      //    });
     });
     // Assume all went well.
     // You must send back a 200, within 20 seconds
