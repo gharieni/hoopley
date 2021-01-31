@@ -46,7 +46,8 @@ const sendTextMessage = (userId, text) => {
         },
         }),
     }
-  );
+  )
+  .then(console.log('************** end fetch ****************'));
 }
 
 module.exports = (event) => {
