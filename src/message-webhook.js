@@ -5,6 +5,7 @@ module.exports = (req, res) => {
     req.body.entry.forEach(entry => {
       entry.messaging.forEach(event => {
         if (event.message && event.message.text) {
+          console.log('process message')
           processMessage(event);
         }
       });
@@ -13,6 +14,7 @@ module.exports = (req, res) => {
     res.status(200).send("event receive");
   }
   else{
+    console.log("404 error")
     res.sendStatus(404);
   }
 };

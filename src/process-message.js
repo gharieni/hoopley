@@ -23,11 +23,14 @@ const sessionPath = sessionClient.projectAgentSessionPath(
   projectId,
   sessionId
 );
+
+const { FACEBOOK_ACCESS_TOKEN } = process.env;
+
 const sendTextMessage = (userId, text) => {
-  console.log("sendTextMessage")
+  console.log("-----sendTextMessage")
   console.log(text)
   return fetch(
-  `https://graph.facebook.com/v3.0/me/messages?access_token=` + process.env.Page_Access_Token,
+  `https://graph.facebook.com/v3.0/me/messages?access_token=${FACEBOOK_ACCESS_TOKEN}`,
     {
       header: {
         'Content-Type': 'application/json',
