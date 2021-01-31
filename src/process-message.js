@@ -30,7 +30,7 @@ const sendTextMessage = (userId, text) => {
   console.log("-----sendTextMessage")
   console.log(text)
   return fetch(
-  `https://graph.facebook.com/v3.0/me/messages?access_token=${FACEBOOK_ACCESS_TOKEN}`,
+  `https://graph.facebook.com/v2.6/me/messages?access_token=${FACEBOOK_ACCESS_TOKEN}`,
     {
       header: {
         'Content-Type': 'application/json',
