@@ -22,25 +22,21 @@ var server = app.listen(process.env.PORT || 5000, function () {
 /* *****************************************************
  * facebook verification endpoint
  *****************************************************  */
-const verifyWebhook = require('./verify-webhook');
-app.get('/webhook', checkUserAuth, verifyWebhook);
-
 
 app.post('/webhook', (req, res) => {
-  console.log("--begin app post")
-  var data = req.body;
+  let data = req.body;
   // Make sure this is a page subscription
   if (data.object == "page") {
     // Iterate over each entry
     // There may be multiple if batched
     data.entry.forEach(function (pageEntry) {
-      var pageID = pageEntry.id;
-      var timeOfEvent = pageEntry.time;
 
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.message) {
           //runSample();
+          let webhook_event = entry.messaging[0];
+          console.log(webhook_event);
           console.dir(messagingEvent);
           //   receivedMessage(messagingEvent);
         } else {
@@ -50,21 +46,18 @@ app.post('/webhook', (req, res) => {
     });
     // Assume all went well.
     // You must send back a 200, within 20 seconds
-    res.sendStatus(200);
+    res.sendStatus(200).send('EVENT_RECEIVED');
   }
   else{
-    console.log("app post status log 404")
     res.sendStatus(404);
   }
-  console.log("-- fin  ");
 });
 
 
+const verifyWebhook = require('./verify-webhook');
+app.get('/webhook', verifyWebhook);
 
-function checkUserAuth(req, res, next){
-  if (req.session.user) return next();
-  return next(new NotAuthorizedError());
-}
+
 /*
   // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
