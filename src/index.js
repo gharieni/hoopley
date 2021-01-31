@@ -25,32 +25,7 @@ var server = app.listen(process.env.PORT || 5000, function () {
 const verifyWebhook = require('./verify-webhook');
 app.get('/webhook', checkUserAuth, verifyWebhook);
 
-function checkUserAuth(req, res, next){
-  if (req.session.user) return next();
-  return next(new NotAuthorizedError());
-}
-/*
-// adds support for Get request to the webhook
-app.get('/webhook', (req, res) => {
-  //parse the query params
-  let mode = req.query['hub.mode'];
-  let token = req.query['process.env.Page.verify_token'];
-  let challenge = req.query['hub.challenge'];
 
-  //check if a token and mode is in the query string of the request
-  if (mode && token){
-    // checks the mode and tokn sent is correct
-    if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN)
-      //  response with the challange token from the request
-    res.status(200).send(challenge);
-  } else {
-    // Respond with 403 Forbidden if verify tokens do not match
-    res.sendStatus(403);
-  }
-});
-*/
-
-/*
 app.post('/webhook', (req, res) => {
   console.log("--begin app post")
   var data = req.body;
@@ -67,7 +42,7 @@ app.post('/webhook', (req, res) => {
         if (messagingEvent.message) {
           //runSample();
           console.dir(messagingEvent);
-       //   receivedMessage(messagingEvent);
+          //   receivedMessage(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ",messagingEvent);
         }
@@ -77,14 +52,45 @@ app.post('/webhook', (req, res) => {
     // You must send back a 200, within 20 seconds
     res.sendStatus(200);
   }
+  else{
+    console.log("app post status log 404")
+    res.sendStatus(404);
+  }
   console.log("-- fin  ");
+});
+
+
+
+function checkUserAuth(req, res, next){
+  if (req.session.user) return next();
+  return next(new NotAuthorizedError());
+}
+/*
+  // adds support for Get request to the webhook
+app.get('/webhook', (req, res) => {
+  //parse the query params
+  let mode = req.query['hub.mode'];
+  let token = req.query['process.env.Page.verify_token'];
+  let challenge = req.query['hub.challenge'];
+
+  //check if a token and mode is in the query string of the request
+  if (mode && token){
+    // checks the mode and tokn sent is correct
+    if (mode === 'subscribe' && token === process.env.VERIFY_TOKEN)
+//  response with the challange token from the request
+    res.status(200).send(challenge);
+  } else {
+    // Respond with 403 Forbidden if verify tokens do not match
+    res.sendStatus(403);
+  }
 });
 */
 
 
-const messageWebhook = require('./message-webhook');
-app.post('/webhook', messageWebhook);
-/*
+
+    //const messageWebhook = require('./message-webhook');
+    //app.post('/webhook', messageWebhook);
+    /*
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var message = event.message;
@@ -114,7 +120,7 @@ function sendToApiAi(sender, text) {
 
   apiaiRequest.on("response", response => {
     if (isDefined(response.result)) {
-      console.log(response);
+      console.log(response)/webhook;
       handleApiAiResponse(sender, response);
     }
   });
@@ -150,8 +156,8 @@ const sendTypingOn = (recipientId) => {
  */
 /*
 const callSendAPI = async (messageData) => {
-  
-  
+
+
   console.log("const callsendAPI");
   const url = "https://graph.facebook.com/v3.0/me/messages?access_token=" + process.env.Page_Access_Token;
   console.log("callsendAPI ")
@@ -267,7 +273,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
       sendTextMessage(sender, responseText);
       break;
     default:
-      //unhandled action, just send back the text
+    //unhandled action, just send back the text
       sendTextMessage(sender, responseText);
   }
 };
