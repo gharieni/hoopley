@@ -18,14 +18,20 @@ var server = app.listen(process.env.PORT || 5000, function () {
   console.log("Express is working on port " + port);
 });
 
+const verifyWebhook = require('./verify-webhook');
+app.get('/webhook', verifyWebhook);
+
+
+const messagewebhook = require('./message-webhook');
+app.post('/webhook', messagewebhook);
 
 /* *****************************************************
  * facebook verification endpoint
  *****************************************************  */
 
-app.post('/webhook', (req, res) => {
+/*app.post('/webhook', (req, res) => {
   let data = req.body;
-  // Make sure this is a page subscription
+// Make sure this is a page subscription
   if (data.object == "page") {
     // Iterate over each entry
     // There may be multiple if batched
@@ -53,14 +59,11 @@ app.post('/webhook', (req, res) => {
     res.sendStatus(404);
   }
 });
+*/
 
 
-const verifyWebhook = require('./verify-webhook');
-app.get('/webhook', verifyWebhook);
-
-
-/*
-  // adds support for Get request to the webhook
+    /*
+      // adds support for Get request to the webhook
 app.get('/webhook', (req, res) => {
   //parse the query params
   let mode = req.query['hub.mode'];
@@ -82,8 +85,6 @@ app.get('/webhook', (req, res) => {
 
 
 
-    //const messageWebhook = require('./message-webhook');
-    //app.post('/webhook', messageWebhook);
     /*
 function receivedMessage(event) {
   var senderID = event.sender.id;
