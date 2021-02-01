@@ -2,7 +2,7 @@
 /* *****************************************************
  * setup dialogflow integration 
  *****************************************************  */
-const fetch = require('node-fetch');
+
 const request = require('request');
 
 const dialogflow = require('@google-cloud/dialogflow');
@@ -25,41 +25,18 @@ const sessionPath = sessionClient.projectAgentSessionPath(
   sessionId
 );
 
-const { FACEBOOK_ACCESS_TOKEN } = process.env;
+/* *****************************************************
+// Sends response messages via the Send API
+ *****************************************************  */
 
 const sendTextMessage = (userId, text) => {
-  console.log("-----sendTextMessage")
-  console.log(text)
-
+  let response;
   response = {
     "text": text
   }
-
   callSendAPI(userId, response);        
-  // return 
-  /*fetch(
-  `https://graph.facebook.com/v2.6/me/messages?access_token=${FACEBOOK_ACCESS_TOKEN}`,
-    {
-      header: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        messaging_type: 'RESPONSE',
-        recipient: {
-          id: userId,
-        },
-        message: {
-          text,
-        },
-        }),
-    }
-  )
-  .then(console.log('************** end fetch ****************'));
-  */
 }
 
-// Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
@@ -68,7 +45,6 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
-  console.log(request_body.message);
   // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
@@ -82,7 +58,6 @@ function callSendAPI(sender_psid, response) {
       console.error("Unable to send message:" + err);
     }
   });
-
 }
 
 module.exports = (event) => {
