@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "newrelic": "^7.1.0",
     "node-fetch": "^2.6.0",
+    "request": "^2.88.2",
     "uuid": "^8.3.0"
   }
 }
