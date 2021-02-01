@@ -3,6 +3,7 @@
  * setup dialogflow integration 
  *****************************************************  */
 const fetch = require('node-fetch');
+const request = require('request');
 
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
