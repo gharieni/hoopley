@@ -31,8 +31,12 @@ const sendTextMessage = (userId, text) => {
   console.log("-----sendTextMessage")
   console.log(text)
 
-  callSendAPI(userId, text);        
- // return 
+  response = {
+    "text": `You sent the message: "${text}". Now send me an image!`
+  }
+
+  callSendAPI(userId, response);        
+  // return 
   /*fetch(
   `https://graph.facebook.com/v2.6/me/messages?access_token=${FACEBOOK_ACCESS_TOKEN}`,
     {
