@@ -13,7 +13,6 @@ module.exports = (req, res) => {
     res.status(200).send("event receive");
   }
   else{
-    console.log("404 error")
     res.sendStatus(404);
   }
 }
