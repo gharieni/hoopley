@@ -32,7 +32,7 @@ const sendTextMessage = (userId, text) => {
   console.log(text)
 
   response = {
-    "text": `You sent the message: "${text}". Now send me an image!`
+    "text": text
   }
 
   callSendAPI(userId, response);        
