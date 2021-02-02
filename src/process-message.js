@@ -34,6 +34,7 @@ const sendTextMessage = (userId, text) => {
   response = {
     "text": text
   }
+  sendTypingOnOff(userId, 'mark_seen')
   callSendAPI(userId, response);        
 }
 
@@ -60,6 +61,28 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
+function sendTypingOnOff(sender_psid, action) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": action
+  }
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": process.env.Page_Access_Token },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('action!' + action)
+    } else {
+      console.error("Unable to send action:" + err);
+    }
+  });
+}
 module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
