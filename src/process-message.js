@@ -87,9 +87,7 @@ module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
 
-  function welcome(agent) {
-    agent.add(`Welcome to my agent!`);
-  }
+
 
   console.log("module export ---> " + message)
   const request = {
@@ -107,6 +105,12 @@ module.exports = (event) => {
     console.log("----------------------------");
     console.log(result);
     console.log("----------------------------");
+
+    function welcome(agent) {
+      console.log('welcome function !'
+      agent.add(`Welcome to my agent!`);
+    }
+
     let intentMap = new Map();
     intentMap.set('1) Default Welcome Intent', welcome);
     console.log("----------------------------");
