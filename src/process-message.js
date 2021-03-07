@@ -99,6 +99,7 @@ module.exports = (event) => {
   };
   sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
+    console.log(result);
     return sendTextMessage(userId, result.fulfillmentText);
   })
     .catch(err => {
