@@ -107,7 +107,7 @@ module.exports = (event) => {
     console.log("----------------------------");
 
     function welcome(agent) {
-      console.log('welcome function !'
+      console.log("welcome function !");
       agent.add(`Welcome to my agent!`);
     }
 
