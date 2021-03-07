@@ -26,7 +26,7 @@ const sessionPath = sessionClient.projectAgentSessionPath(
 );
 
 /* *****************************************************
-// Sends response messages via the Send API
+  // Sends response messages via the Send API
  *****************************************************  */
 
 const sendTextMessage = (userId, text) => {
@@ -87,6 +87,10 @@ module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
 
+  function welcome(agent) {
+    agent.add(`Welcome to my agent!`);
+  }
+
   console.log("module export ---> " + message)
   const request = {
     session: sessionPath,
@@ -108,4 +112,6 @@ module.exports = (event) => {
     .catch(err => {
       console.error('ERROR', err);
     });
+  let intentMap = new Map();
+  intentMap.set('Default Welcome Intent', welcome);
 }
