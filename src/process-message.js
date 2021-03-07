@@ -109,6 +109,7 @@ module.exports = (event) => {
     console.log("----------------------------");
     let intentMap = new Map();
     intentMap.set('Default Welcome Intent', welcome);
+    console.log("----------------------------");
     return sendTextMessage(userId, result.fulfillmentText);
   })
     .catch(err => {
