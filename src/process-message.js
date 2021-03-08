@@ -124,7 +124,7 @@ module.exports = (event) => {
   sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
     return sendTextMessage(userId, result.fulfillmentText);
-  }).then(function(){ 
+  }).then(response => { 
     return  WebhookProcessing(request, response);
   }).catch(err => {
     console.error('ERROR', err);
