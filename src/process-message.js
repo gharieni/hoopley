@@ -86,6 +86,25 @@ function sendTypingOnOff(sender_psid, action) {
   });
 }
 
+const {WebhookClient} = require('dialogflow-fulfillment');
+
+function welcome(agent) {
+  console.log("welcome function !");
+  agent.add(`Welcome to my agent!`);
+}
+
+function WebhookProcessing(req, res) {
+  console.log("----------------------------");
+  const agent = new WebhookClient({request: req, response: res});
+  console.info(`agent set`);
+
+  let intentMap = new Map();
+  intentMap.set('1) Default Welcome Intent', welcome);
+
+  console.log("----------------------------");
+  agent.handleRequest(intentMap);
+}
+
 
 
 module.exports = (event) => {
@@ -111,4 +130,5 @@ module.exports = (event) => {
   }).catch(err => {
     console.error('ERROR', err);
   });
+  WebhookProcessing(req, res);
 }
