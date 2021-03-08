@@ -83,6 +83,7 @@ function sendTypingOnOff(sender_psid, action) {
     }
   });
 }
+
 module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
@@ -100,10 +101,6 @@ module.exports = (event) => {
     },
   };
 
-  sessionClient.detectIntent(request).then(response => {
-    const result = response[0].queryResult;
-    console.log("----------------------------");
-    console.log(result);
     console.log("----------------------------");
 
     function welcome(agent) {
@@ -113,8 +110,14 @@ module.exports = (event) => {
 
     let intentMap = new Map();
     intentMap.set('1) Default Welcome Intent', welcome);
+    agent.handleRequest(intentMap);
     console.log("----------------------------");
-    return sendTextMessage(userId, result.fulfillmentText);
+ 
+
+
+  sessionClient.detectIntent(request).then(response => {
+    const result = response[0].queryResult;
+   return sendTextMessage(userId, result.fulfillmentText);
   })
     .catch(err => {
       console.error('ERROR', err);
