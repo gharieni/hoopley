@@ -20,6 +20,8 @@ const config = {
   }
 };
 
+process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
+
 const sessionClient = new dialogflow.SessionsClient(config);
 const sessionPath = sessionClient.projectAgentSessionPath(
   projectId,
