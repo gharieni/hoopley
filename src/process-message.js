@@ -10,7 +10,7 @@ const uuid = require('uuid');
 const projectId = 'care-me-almvrf';
 const sessionId = uuid.v4();
 const languageCode = 'en-US';
-const {WebhookClient} = require('dialogflow-fulfillment');
+const {WebhookClient} = require('@google-cloud/dialogflow-fulfillment');
 
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
 const config = {
