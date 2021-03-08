@@ -92,40 +92,41 @@ function welcome(agent) {
   agent.add(`Welcome to my agent!`);
 }
 
-module.exports = (event) => {
-  const userId = event.sender.id;
-  const message = event.message.text;
+function WebhookProcessing(req, res) {
+  const agent = new WebhookClient({request: req, response: res});
+  console.log("----------------------------");
+  console.info(`agent set`);
 
-  console.log("module export ---> " + message)
-  const request = {
-    session: sessionPath,
-    queryInput: {
-      text: {
-        text: message,
-        languageCode: languageCode,
+  let intentMap = new Map();
+  intentMap.set('1) Default Welcome Intent', welcome);
+
+  console.log("----------------------------");
+  //     agent.handleRequest(intentMap);
+  }
+
+  module.exports = (event) => {
+    const userId = event.sender.id;
+    const message = event.message.text;
+
+    console.log("module export ---> " + message)
+    const request = {
+      session: sessionPath,
+      queryInput: {
+        text: {
+          text: message,
+          languageCode: languageCode,
+        },
       },
-    },
-  };
-
-
-  const agent = new WebhookClient({ request, response });
-
-  sessionClient.detectIntent(request).then(response => {
-    const result = response[0].queryResult;
-
-
-    console.log("----------------------------");
-
-    let intentMap = new Map();
-    intentMap.set('1) Default Welcome Intent', welcome);
-    agent.handleRequest(intentMap);
-    console.log("----------------------------");
+    };
 
 
 
-    return sendTextMessage(userId, result.fulfillmentText);
-  })
-    .catch(err => {
-      console.error('ERROR', err);
-    });
-}
+    sessionClient.detectIntent(request).then(response => {
+      const result = response[0].queryResult;
+      WebhookProcessing(request, response);
+      return sendTextMessage(userId, result.fulfillmentText);
+    })
+      .catch(err => {
+        console.error('ERROR', err);
+      });
+  }
