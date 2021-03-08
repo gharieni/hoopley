@@ -5,12 +5,12 @@
 
 const request = require('request');
 
+const {WebhookClient} = require('dialogflow-fulfillment');
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const projectId = 'care-me-almvrf';
 const sessionId = uuid.v4();
 const languageCode = 'en-US';
-const {WebhookClient} = require('@google-cloud/dialogflow-fulfillment');
 
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
 const config = {
@@ -85,12 +85,14 @@ function sendTypingOnOff(sender_psid, action) {
   });
 }
 
+function welcome(agent) {
+  console.log("welcome function !");
+  agent.add(`Welcome to my agent!`);
+}
+
 module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
-  const agent = new WebhookClient({ request, response });
-
-
 
   console.log("module export ---> " + message)
   const request = {
@@ -103,23 +105,23 @@ module.exports = (event) => {
     },
   };
 
-    console.log("----------------------------");
 
-    function welcome(agent) {
-      console.log("welcome function !");
-      agent.add(`Welcome to my agent!`);
-    }
+
+  sessionClient.detectIntent(request).then(response => {
+    const result = response[0].queryResult;
+
+    const agent = new WebhookClient({ request, response });
+
+    console.log("----------------------------");
 
     let intentMap = new Map();
     intentMap.set('1) Default Welcome Intent', welcome);
     agent.handleRequest(intentMap);
     console.log("----------------------------");
- 
 
 
-  sessionClient.detectIntent(request).then(response => {
-    const result = response[0].queryResult;
-   return sendTextMessage(userId, result.fulfillmentText);
+
+    return sendTextMessage(userId, result.fulfillmentText);
   })
     .catch(err => {
       console.error('ERROR', err);
