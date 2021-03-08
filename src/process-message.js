@@ -87,6 +87,7 @@ function sendTypingOnOff(sender_psid, action) {
 module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
+  const agent = new WebhookClient({ request, response });
 
 
 
