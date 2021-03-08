@@ -95,7 +95,7 @@ function welcome(agent) {
 
 function WebhookProcessing(req, res) {
   console.log("----------------------------");
-  const agent = new WebhookClient({request: req, response: res});
+  const agent = new WebhookClient({req, res});
   console.info(`agent set`);
 
   let intentMap = new Map();
