@@ -106,11 +106,11 @@ module.exports = (event) => {
   };
 
 
+  const agent = new WebhookClient({ request, response });
 
   sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
 
-    const agent = new WebhookClient({ request, response });
 
     console.log("----------------------------");
 
