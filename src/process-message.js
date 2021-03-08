@@ -95,7 +95,7 @@ function welcome(agent) {
 
 function WebhookProcessing(req, res) {
   console.log("----------------------------");
-  const agent = new WebhookClient({req, res});
+  const agent = new WebhookClient({req: request, res:response});
   console.info(`agent set`);
 
   let intentMap = new Map();
@@ -107,7 +107,7 @@ function WebhookProcessing(req, res) {
 
 
 
-module.exports = (event) => {
+module.exports = (req, res, event) => {
   const userId = event.sender.id;
   const message = event.message.text;
 
@@ -126,7 +126,7 @@ module.exports = (event) => {
 
   sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
-    WebhookProcessing(request, response);
+    WebhookProcessing(req, res);
     return sendTextMessage(userId, result.fulfillmentText);
   }).catch(err => {
     console.error('ERROR', err);
