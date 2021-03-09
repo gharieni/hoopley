@@ -107,7 +107,7 @@ function WebhookProcessing(req, res) {
 
 
 
-module.exports = (req, res, event) => {
+module.exports = (event) => {
   const userId = event.sender.id;
   const message = event.message.text;
 
@@ -126,9 +126,10 @@ module.exports = (req, res, event) => {
 
   sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
-    WebhookProcessing(req, res);
-    return sendTextMessage(userId, result.fulfillmentText);
-  }).catch(err => {
+    sendTextMessage(userId, result.fulfillmentText);
+    WebhookProcessing(request, response);
+  })
+    .catch(err => {
     console.error('ERROR', err);
   });
 }
