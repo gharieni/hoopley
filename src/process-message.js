@@ -10,6 +10,7 @@ const uuid = require('uuid');
 const projectId = 'care-me-almvrf';
 const sessionId = uuid.v4();
 const languageCode = 'en-US';
+const {struct} = require('pb-util');
 
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
 const config = {
@@ -120,16 +121,19 @@ module.exports = (event) => {
         languageCode: languageCode,
       },
     },
-  };
+    queryParams: {
+      payload: struct.encode({source: 'ACTIONS_ON_GOOGLE'})
+    },
+    };
 
 
 
-  sessionClient.detectIntent(request).then(response => {
-    const result = response[0].queryResult;
-    sendTextMessage(userId, result.fulfillmentText);
-    WebhookProcessing(request, response);
-  })
+    sessionClient.detectIntent(request).then(response => {
+      const result = response[0].queryResult;
+      sendTextMessage(userId, result.fulfillmentText);
+      WebhookProcessing(request, response);
+    })
     .catch(err => {
-    console.error('ERROR', err);
-  });
-}
+      console.error('ERROR', err);
+    });
+  }
