@@ -13,6 +13,7 @@ const languageCode = 'en-US';
 const {struct} = require('pb-util');
 
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
+
 const config = {
   credentials: {
     private_key: privateKey,
@@ -64,6 +65,9 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
+
+
+
 function sendTypingOnOff(sender_psid, action) {
   // Construct the message body
   let request_body = {
@@ -89,22 +93,39 @@ function sendTypingOnOff(sender_psid, action) {
 
 const {WebhookClient} = require('dialogflow-fulfillment');
 
-function welcome(agent) {
-  console.log("welcome function !");
-  agent.add(`Welcome to my agent!`);
-}
+exports.dialogflowWebhook = functions.https.onRequest(async (request, response) => {
+  const agent = new WebhookClient({ request, response });
 
-function WebhookProcessing(req, res) {
-  console.log("----------------------------");
-  const agent = new WebhookClient({req: request, res:response});
-  console.info(`agent set`);
+  console.log(JSON.stringify(request.body));
+
+  const result = request.body.queryResult;
+
+  function welcome(agent) {
+    agent.add(`Welcome to my agent!`);
+  }
+
+  function fallback(agent) {
+    agent.add(`Sorry, can you try again?`);
+  }
+
+  async function userOnboardingHandler(agent) {
+
+    const db = admin.firestore();
+    const profile = db.collection('users').doc('jeffd23');
+
+    const { name, color } = result.parameters;
+
+    await profile.set({ name, color })
+    agent.add(`Welcome aboard my friend!`);
+  }
+
 
   let intentMap = new Map();
-  intentMap.set('1) Default Welcome Intent', welcome);
-
-  console.log("----------------------------");
+  intentMap.set('1)Default Welcome Intent', welcome);
+  intentMap.set('Default Fallback Intent', fallback);
+  intentMap.set('UserOnboarding', userOnboardingHandler);
   agent.handleRequest(intentMap);
-}
+});
 
 
 
@@ -124,16 +145,20 @@ module.exports = (event) => {
     queryParams: {
       payload: struct.encode({source: 'ACTIONS_ON_GOOGLE'})
     },
-    };
+  };
 
 
 
-    sessionClient.detectIntent(request).then(response => {
-      const result = response[0].queryResult;
-      sendTextMessage(userId, result.fulfillmentText);
-      WebhookProcessing(request, response);
-    })
+  sessionClient.detectIntent(request).then(response => {
+    const result = response[0].queryResult;
+    sendTextMessage(userId, result.fulfillmentText);
+      console.log('Detected intent');
+      console.log(`  Query: ${result.queryText}`);
+      console.log(`  Response: ${result.fulfillmentText}`);
+      if (result.intent) {
+            console.log(`  Intent: ${result.intent.displayName}`);
+  })
     .catch(err => {
       console.error('ERROR', err);
     });
-  }
+}
