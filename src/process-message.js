@@ -120,6 +120,7 @@ exports.dialogflowWebhook = functions.https.onRequest(async (request, response) 
 });
 */
  function welcome(agent) {
+   console.log('welcome fnction call ');
     agent.add(`Welcome to my agent!`);
   }
 
