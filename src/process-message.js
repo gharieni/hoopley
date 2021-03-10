@@ -90,7 +90,7 @@ function sendTypingOnOff(sender_psid, action) {
     }
   });
 }
-
+/*
 const {WebhookClient} = require('dialogflow-fulfillment');
 
 exports.dialogflowWebhook = functions.https.onRequest(async (request, response) => {
@@ -126,7 +126,7 @@ exports.dialogflowWebhook = functions.https.onRequest(async (request, response) 
   intentMap.set('UserOnboarding', userOnboardingHandler);
   agent.handleRequest(intentMap);
 });
-
+*/
 
 
 module.exports = (event) => {
