@@ -100,11 +100,7 @@ exports.dialogflowWebhook = functions.https.onRequest(async (request, response) 
 
   const result = request.body.queryResult;
 
-  function welcome(agent) {
-    agent.add(`Welcome to my agent!`);
-  }
-
-  function fallback(agent) {
+   function fallback(agent) {
     agent.add(`Sorry, can you try again?`);
   }
 
@@ -120,13 +116,13 @@ exports.dialogflowWebhook = functions.https.onRequest(async (request, response) 
   }
 
 
-  let intentMap = new Map();
-  intentMap.set('1)Default Welcome Intent', welcome);
-  intentMap.set('Default Fallback Intent', fallback);
-  intentMap.set('UserOnboarding', userOnboardingHandler);
-  agent.handleRequest(intentMap);
+ agent.handleRequest(intentMap);
 });
 */
+ function welcome(agent) {
+    agent.add(`Welcome to my agent!`);
+  }
+
 
 
 module.exports = (event) => {
@@ -156,7 +152,8 @@ module.exports = (event) => {
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
     if (result.intent.displayName ===  '1) Default Welcome Intent') {
-      console.log(`heyyyyyyyyyyyyyyy intent detected`);
+      let intentMap = new Map();
+      intentMap.set('1)Default Welcome Intent', welcome);
     }
   })
     .catch(err => {
