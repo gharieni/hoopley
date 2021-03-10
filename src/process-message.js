@@ -155,8 +155,8 @@ module.exports = (event) => {
     console.log('Detected intent');
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
-    if (result.intent) {
-      console.log(`  Intent: ${result.intent.displayName}`);
+    if (result.intent.displayName ===  '1) Default Welcome Intent') {
+      console.log(`heyyyyyyyyyyyyyyy intent detected`);
     }
   })
     .catch(err => {
