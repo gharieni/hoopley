@@ -153,7 +153,6 @@ module.exports = (event) => {
     const result = response[0].queryResult;
     sendTextMessage(userId, result.fulfillmentText);
     console.log('Detected intent');
-    const result = responses[0].queryResult;
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
     if (result.intent) {
