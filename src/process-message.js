@@ -152,11 +152,13 @@ module.exports = (event) => {
   sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
     sendTextMessage(userId, result.fulfillmentText);
-      console.log('Detected intent');
-      console.log(`  Query: ${result.queryText}`);
-      console.log(`  Response: ${result.fulfillmentText}`);
-      if (result.intent) {
-            console.log(`  Intent: ${result.intent.displayName}`);
+    console.log('Detected intent');
+    const result = responses[0].queryResult;
+    console.log(`  Query: ${result.queryText}`);
+    console.log(`  Response: ${result.fulfillmentText}`);
+    if (result.intent) {
+      console.log(`  Intent: ${result.intent.displayName}`);
+    }
   })
     .catch(err => {
       console.error('ERROR', err);
