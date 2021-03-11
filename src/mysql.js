@@ -53,10 +53,7 @@ var pushToMysql = (userId, intent, text) => {
   console.log(intent.displayName);
 
 
-
-
-  console.log(result.intent.displayName);
-  switch(result.intent.displayName) {
+  switch(intent.displayName) {
     case '1) Default Welcome Intent':
       connectToDatabase();
       connection.query("USE caremedb", function(err) {
