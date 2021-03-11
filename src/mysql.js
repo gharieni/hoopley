@@ -1,5 +1,11 @@
 var mysql = require('mysql');
 
+const connection = mysql.createConnection({
+  host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
+  user : 'admin',
+  password : '75lbt0u&',
+});
+
 /*
 var sql = 'CREATE TABLE data (`age` INT , `sexe` VARCHAR(10) NOT NULL , `height` INT, `weight` INT, `contact` VARCHAR(100), `relation` VARCHAR(100), `pcr` VARCHAR(10),`pathologie` VARCHAR(100))';
 connection.query(sql,  function (err, res) {
@@ -27,17 +33,7 @@ function queryDatabase(author){
 var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
 
 var pushToMysql = (userId, intent, text,connection) => {
-  function connectToDatabase(){
-    const connection = mysql.createConnection({
-      host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
-      user : 'admin',
-      password : '75lbt0u&',
-    });
-    return new Promise((resolve,reject) => {
-      connection.connect();
-      resolve(connection);
-    });
-  }
+
   console.log('function push mysql');
   console.log(intent.displayName);
 
