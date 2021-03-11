@@ -32,7 +32,7 @@ function queryDatabase(author){
 
 var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
 
-var pushToMysql = (userId, intent, text,connection) => {
+var pushToMysql = (userId, intent, text) => {
 
   console.log('function push mysql');
   console.log(intent.displayName);
