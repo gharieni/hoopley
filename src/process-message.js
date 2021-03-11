@@ -119,7 +119,7 @@ module.exports = (event) => {
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
     if (result.intent.displayName ===  '1) Default Welcome Intent') {
-      pushToMysql(userId, result.intent);
+      pushToMysql(userId, result.intent, result.queryText);
     }
   })
     .catch(err => {
