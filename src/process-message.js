@@ -4,7 +4,6 @@
  *****************************************************  */
 
 const request = require('request');
-
 const dialogflow = require('@google-cloud/dialogflow');
 const uuid = require('uuid');
 const projectId = 'care-me-almvrf';
@@ -90,39 +89,11 @@ function sendTypingOnOff(sender_psid, action) {
     }
   });
 }
-/*
-const {WebhookClient} = require('dialogflow-fulfillment');
-
-exports.dialogflowWebhook = functions.https.onRequest(async (request, response) => {
-  const agent = new WebhookClient({ request, response });
-
-  console.log(JSON.stringify(request.body));
-
-  const result = request.body.queryResult;
-
-   function fallback(agent) {
-    agent.add(`Sorry, can you try again?`);
-  }
-
-  async function userOnboardingHandler(agent) {
-
-    const db = admin.firestore();
-    const profile = db.collection('users').doc('jeffd23');
-
-    const { name, color } = result.parameters;
-
-    await profile.set({ name, color })
-    agent.add(`Welcome aboard my friend!`);
-  }
 
 
- agent.handleRequest(intentMap);
-});
-*/
- function welcome(agent) {
-   console.log('welcome fnction call ');
-    agent.add(`Welcome to my agent!`);
-  }
+function pushToMysql(userId, intent) {
+  intentMap.set('1)Default Welcome Intent', welcome);
+}
 
 
 
@@ -145,16 +116,14 @@ module.exports = (event) => {
   };
 
 
-
-  sessionClient.detectIntent(request).then(response => {
+    sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
     sendTextMessage(userId, result.fulfillmentText);
     console.log('Detected intent');
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
     if (result.intent.displayName ===  '1) Default Welcome Intent') {
-      let intentMap = new Map();
-      intentMap.set('1)Default Welcome Intent', welcome);
+      pushToMysql(userId, result.intent);
     }
   })
     .catch(err => {
