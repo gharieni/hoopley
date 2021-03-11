@@ -91,11 +91,6 @@ function sendTypingOnOff(sender_psid, action) {
 }
 
 
-function pushToMysql(userId, intent) {
-  intentMap.set('1)Default Welcome Intent', welcome);
-}
-
-
 
 module.exports = (event) => {
   const userId = event.sender.id;
