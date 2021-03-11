@@ -3,7 +3,8 @@ var mysql = require('mysql');
 const connection = mysql.createConnection({
   host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
   user : 'admin',
-  password : '75lbt0u&'
+  password : '75lbt0u&',
+  port ; '3306'
 });
 
 /*
@@ -40,6 +41,13 @@ var pushToMysql = (userId, intent, text,connection) => {
 
   switch(intent.displayName) {
     case '1) Default Welcome Intent':
+      connection.connect(function(err) {
+            if (err) {
+                    return console.error('error: ' + err.message);
+                  }
+          
+            console.log('Connected to the MySQL server.');
+          });
       connection.query("USE caremedb", function(err) {
         if (err) throw err;
       });
