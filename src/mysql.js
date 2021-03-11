@@ -54,6 +54,7 @@ var pushToMysql = (userId, intent, text) => {
     case '2) Data share':
       break;
     case 'age':
+      console.log('intenet age here ! ');'
       author.age = text;
       break;
     case 'contact with a positive of COVID-19?':
