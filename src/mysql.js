@@ -53,6 +53,7 @@ var pushToMysql = (userId, intent, text) => {
 
 
 
+  print(result.intent.displayName);
   switch(result.intent.displayName) {
     case '1) Default Welcome Intent':
       connectToDatabase();
