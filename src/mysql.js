@@ -3,8 +3,7 @@ var mysql = require('mysql');
 const connection = mysql.createConnection({
   host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
   user : 'admin',
-  password : '75lbt0u&',
-  port ; '3306'
+  password : '75lbt0u&'
 });
 
 /*
