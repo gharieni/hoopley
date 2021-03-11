@@ -53,7 +53,7 @@ var pushToMysql = (userId, intent, text) => {
       break;
     case '2) Data share':
       break;
-    case 'age'
+    case 'age':
       author.age = text;
       console.log('intent age here ');
       break;
