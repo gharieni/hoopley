@@ -45,15 +45,17 @@ connection.end();
 }
 
 
+var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
+
 var pushToMysql = (userId, intent, text) => {
+
   console.log('function push mysql');
   console.log(intent.displayName);
 
-  var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
 
 
 
-  print(result.intent.displayName);
+  console.log(result.intent.displayName);
   switch(result.intent.displayName) {
     case '1) Default Welcome Intent':
       connectToDatabase();
