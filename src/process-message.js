@@ -11,6 +11,7 @@ const sessionId = uuid.v4();
 const languageCode = 'en-US';
 const {struct} = require('pb-util');
 const pushToMysql = require('./mysql');
+const { WebhookClient } = require('dialogflow-fulfillment')
 
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
 
