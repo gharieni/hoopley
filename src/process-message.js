@@ -11,7 +11,6 @@ const sessionId = uuid.v4();
 const languageCode = 'en-US';
 const {struct} = require('pb-util');
 const pushToMysql = require('./mysql');
-const { WebhookClient } = require('dialogflow-fulfillment')
 
 var privateKey = (process.env.NODE_ENV=="production") ? JSON.parse(process.env.DIALOGFLOW_PRIVATE_KEY).replace(/\n/g, '\n') : null;
 
@@ -112,17 +111,11 @@ module.exports = (event) => {
     },
   };
 
-  function welcome(){
-    console.log('*** function welcome called here');
-  }
-
-    sessionClient.detectIntent(request).then(response => {
+     sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
     const agent = new WebhookClient({ request, response});
     sendTextMessage(userId, result.fulfillmentText);
-    const intentMap = new Map()
 
-    intentMap.set('1) Default Welcome Intent', welcome)
     console.log('Detected intent');
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
