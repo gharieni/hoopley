@@ -47,7 +47,7 @@ var pushToMysql = (userId, intent, text) => {
         }
         console.log('Connected to the MySQL server.');
       });
-      connection.query("USE caremedb", function(err) {
+      pool.query("USE caremedb", function(err) {
         if (err) throw err;
       });
       break;
