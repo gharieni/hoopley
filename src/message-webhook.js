@@ -11,8 +11,9 @@ module.exports = (req, res) => {
     req.body.entry.forEach(entry => {
       entry.messaging.forEach(event => {
         if (event.message && event.message.text) {
-          const intentMap = new Map()
-          intentMap.set('1) Default Welcome Intent', welcome)
+          const agent = new WebhookClient({ request: req, response: res });
+          const intentMap = new Map();
+          intentMap.set('1) Default Welcome Intent', welcome);
           agent.handleRequest(intentMap);
           processMessage(event);
         }
