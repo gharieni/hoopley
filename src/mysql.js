@@ -67,6 +67,8 @@ var pushToMysql = (userId, intent, text) => {
       break;
     case 'pathologies?':
       author.pathologie = text;
+      console.log('------------------------------');
+      queryDatabase(author);
       break;
     case 'Sexe':
       author.sexe = text;
@@ -80,7 +82,6 @@ var pushToMysql = (userId, intent, text) => {
       author.pcr = text;
       break;
     case 'symptom date':
-      queryDatabase(author);
       break;
   } 
 };
