@@ -118,7 +118,7 @@ module.exports = (event) => {
 
     sessionClient.detectIntent(request).then(response => {
     const result = response[0].queryResult;
-    const agent = new WebhookClient({ request: req, response: res });
+    const agent = new WebhookClient({ request, response});
     sendTextMessage(userId, result.fulfillmentText);
     const intentMap = new Map()
 
