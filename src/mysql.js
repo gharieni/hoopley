@@ -67,8 +67,6 @@ var pushToMysql = (userId, intent, text) => {
       break;
     case 'pathologies?':
       author.pathologie = text;
-      console.log('------------------------------');
-      queryDatabase(author);
       break;
     case 'Sexe':
       author.sexe = text;
@@ -77,6 +75,8 @@ var pushToMysql = (userId, intent, text) => {
       break;
     case 'Weight':
       author.weight = text;
+      console.log('------------------------------');
+      queryDatabase(author);
       break;
     case 'you have test for COVID-19':
       author.pcr = text;
