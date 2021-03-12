@@ -14,7 +14,7 @@ connection.query(sql,  function (err, res) {
 });
 */
 
-function queryDatabase(author){
+function queryDatabase(author, connection){
  connection.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
@@ -76,7 +76,7 @@ var pushToMysql = (userId, intent, text) => {
     case 'Weight':
       author.weight = text;
       console.log('------------------------------');
-      queryDatabase(author);
+      queryDatabase(author,connection);
       break;
     case 'you have test for COVID-19':
       author.pcr = text;
