@@ -65,9 +65,6 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
-
-
-
 function sendTypingOnOff(sender_psid, action) {
   // Construct the message body
   let request_body = {
@@ -119,7 +116,7 @@ module.exports = (event) => {
     console.log('Detected intent');
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
-    if (result.intent.displayName ===  '1) Default Welcome Intent') {
+    if (result.intent) {
       pushToMysql(userId, result.intent, result.queryText);
     }
   })
