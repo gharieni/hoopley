@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
   host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
   user : 'admin',
   password : '75lbt0u&'
@@ -15,18 +15,19 @@ connection.query(sql,  function (err, res) {
 */
 
 function queryDatabase(author){
-  connection.query('INSERT INTO data SET ?', author, function (err, res) {
+  pool.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
   });
   console.log('_________________________________________________');
-  connection.query("SELECT * FROM todos", function (err,rows) {
+  pool.query("SELECT * FROM todos", function (err,rows) {
     if(err) throw err;
     console.log('Data received from Db:');
     console.log(rows);
   });
 
-  connection.end();
+  console.log('intenet age here !');
+  pool.release();
 }
 
 
@@ -40,13 +41,12 @@ var pushToMysql = (userId, intent, text) => {
 
   switch(intent.displayName) {
     case '1) Default Welcome Intent':
-      connection.connect(function(err) {
-            if (err) {
-                    return console.error('error: ' + err.message);
-                  }
-          
-            console.log('Connected to the MySQL server.');
-          });
+      pool.getConnection(function(err) {
+        if (err) {
+          return console.error('error: ' + err.message);
+        }
+        console.log('Connected to the MySQL server.');
+      });
       connection.query("USE caremedb", function(err) {
         if (err) throw err;
       });
