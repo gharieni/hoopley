@@ -15,19 +15,19 @@ connection.query(sql,  function (err, res) {
 */
 
 function queryDatabase(author){
-  pool.query('INSERT INTO data SET ?', author, function (err, res) {
+ connection.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
   });
   console.log('_________________________________________________');
-  pool.query("SELECT * FROM todos", function (err,rows) {
+  connection.query("SELECT * FROM todos", function (err,rows) {
     if(err) throw err;
     console.log('Data received from Db:');
     console.log(rows);
   });
 
   console.log('intenet age here !');
-  pool.release();
+  connection.release();
 }
 
 
@@ -41,7 +41,7 @@ var pushToMysql = (userId, intent, text) => {
 
   switch(intent.displayName) {
     case '1) Default Welcome Intent':
-      pool.getConnection(function(err) {
+      pool.getConnection(function(err,connection) {
         if (err) {
           return console.error('error: ' + err.message);
         }
