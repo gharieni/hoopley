@@ -15,7 +15,7 @@ connection.query(sql,  function (err, res) {
 */
 
 function queryDatabase(author,connection){
- pool.query('INSERT INTO data SET ?', author, function (err, res) {
+  pool.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
   });
@@ -41,15 +41,6 @@ var pushToMysql = (userId, intent, text) => {
 
   switch(intent.displayName) {
     case '1) Default Welcome Intent':
-      pool.getConnection(function(err,connection) {
-        if (err) {
-          return console.error('error: ' + err.message);
-        }
-        console.log('Connected to the MySQL Server.');
-      });
-      pool.query("USE caremedb", function(err) {
-        if (err) throw err;
-      });
       break;
     case '2) Data share':
       break;
@@ -76,6 +67,16 @@ var pushToMysql = (userId, intent, text) => {
     case 'Weight':
       author.weight = text;
       console.log('------------------------------');
+      pool.getConnection(function(err,connection) {
+        if (err) {
+          return console.error('error: ' + err.message);
+        }
+        console.log('Connected to the MySQL Server.');
+      });
+      pool.query("USE caremedb", function(err) {
+        if (err) throw err;
+      });
+
       queryDatabase(author,connection);
       break;
     case 'you have test for COVID-19':
