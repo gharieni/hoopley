@@ -6,6 +6,13 @@ const pool = mysql.createPool({
   password : '75lbt0u&'
 });
 
+var getConnection = function(callback) {
+      pool.getConnection(function(err, connection) {
+                callback(err, connection);
+            });
+};
+
+
 /*
 var sql = 'CREATE TABLE data (`age` INT , `sexe` VARCHAR(10) NOT NULL , `height` INT, `weight` INT, `contact` VARCHAR(100), `relation` VARCHAR(100), `pcr` VARCHAR(10),`pathologie` VARCHAR(100))';
 connection.query(sql,  function (err, res) {
@@ -25,9 +32,6 @@ function queryDatabase(author,connection){
     console.log('Data received from Db:');
     console.log(rows);
   });
-
-  console.log('intenet age here !');
-  connection.release();
 }
 
 
@@ -35,7 +39,7 @@ var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: 
 
 var pushToMysql = (userId, intent, text) => {
 
-  console.log('function push mysql');
+  conole.log('function push mysql');
   console.log(intent.displayName);
 
 
@@ -67,17 +71,13 @@ var pushToMysql = (userId, intent, text) => {
     case 'Weight':
       author.weight = text;
       console.log('------------------------------');
-      pool.getConnection(function(err,connection) {
-        if (err) {
-          return console.error('error: ' + err.message);
-        }
-        console.log('Connected to the MySQL Server.');
-      });
+      getConnection();
       pool.query("USE caremedb", function(err) {
         if (err) throw err;
       });
-
       queryDatabase(author,connection);
+      console.log('intenet age here !');
+      connection.release();
       break;
     case 'you have test for COVID-19':
       author.pcr = text;
