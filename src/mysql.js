@@ -39,7 +39,6 @@ var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: 
 
 var pushToMysql = (userId, intent, text) => {
 
-  conole.log('function push mysql');
   console.log(intent.displayName);
 
 
