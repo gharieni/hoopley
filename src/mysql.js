@@ -21,7 +21,7 @@ connection.query(sql,  function (err, res) {
 });
 */
 
-function queryDatabase(author,connection){
+function queryDatabase(author){
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
@@ -74,7 +74,7 @@ var pushToMysql = (userId, intent, text) => {
       pool.query("USE caremedb", function(err) {
         if (err) throw err;
       });
-      queryDatabase(author,connection);
+      queryDatabase(author);
       console.log('intenet age here !');
       connection.release();
       break;
