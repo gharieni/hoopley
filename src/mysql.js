@@ -6,12 +6,6 @@ const pool = mysql.createPool({
   password : '75lbt0u&'
 });
 
-var getConnection = function(callback) {
-      pool.getConnection(function(err, connection) {
-                callback(err, connection);
-            });
-};
-
 
 /*
 var sql = 'CREATE TABLE data (`age` INT , `sexe` VARCHAR(10) NOT NULL , `height` INT, `weight` INT, `contact` VARCHAR(100), `relation` VARCHAR(100), `pcr` VARCHAR(10),`pathologie` VARCHAR(100))';
@@ -70,11 +64,20 @@ var pushToMysql = (userId, intent, text) => {
     case 'Weight':
       author.weight = text;
       console.log('------------------------------');
-      getConnection();
+      pool.getConnection(function(err,connection) {
+        if (err) {
+          return console.error('error: ' + err.message);
+        }
+        console.log('Connected to the MySQL Server.');
+      });
       pool.query("USE caremedb", function(err) {
         if (err) throw err;
       });
-      queryDatabase(author);
+
+      pool.query("USE caremedb", function(err) {
+        if (err) throw err;
+      });
+      queryDatabase(author,connection);
       console.log('intenet age here !');
       connection.release();
       break;
