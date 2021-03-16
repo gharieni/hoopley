@@ -78,7 +78,6 @@ var pushToMysql = (userId, intent, text) => {
       console.log('------------------------------');
       queryDatabase(author);
       console.log('intenet age here !');
-      connection.release();
       break;
     case 'you have test for COVID-19':
       author.pcr = text;
