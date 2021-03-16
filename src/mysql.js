@@ -25,6 +25,7 @@ connection.query(sql,  function (err, res) {
 function queryDatabase(author){
   pool.query("USE caremedb", function(err) {
     if (err) throw err;
+    console.log('caremedb used')
   });
 
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
@@ -78,7 +79,7 @@ var pushToMysql = (userId, intent, text) => {
       author.weight = text;
       console.log('------------------------------');
       queryDatabase(author);
-      console.log('intenet age here !');
+      console.log('intenet weight complete !');
       break;
     case 'you have test for COVID-19':
       author.pcr = text;
