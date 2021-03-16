@@ -6,6 +6,16 @@ const pool = mysql.createPool({
   password : '75lbt0u&'
 });
 
+pool.getConnection(function(err,connection) {
+  if (err) {
+    return console.error('error: ' + err.message);
+  }
+
+  console.log('Connected to the MySQL Server.');
+  pool.query("USE caremedb", function(err) {
+    if (err) throw err;
+  });
+});
 
 /*
 var sql = 'CREATE TABLE data (`age` INT , `sexe` VARCHAR(10) NOT NULL , `height` INT, `weight` INT, `contact` VARCHAR(100), `relation` VARCHAR(100), `pcr` VARCHAR(10),`pathologie` VARCHAR(100))';
@@ -21,10 +31,12 @@ function queryDatabase(author){
     console.log('Last insert ID:', res.insertId);
   });
   console.log('_________________________________________________');
+
   pool.query("SELECT * FROM data", function (err,rows) {
     if(err) throw err;
     console.log('Data received from Db:');
     console.log(rows);
+    connection.release();
   });
 }
 
@@ -64,19 +76,6 @@ var pushToMysql = (userId, intent, text) => {
     case 'Weight':
       author.weight = text;
       console.log('------------------------------');
-      pool.getConnection(function(err,connection) {
-        if (err) {
-          return console.error('error: ' + err.message);
-        }
-        console.log('Connected to the MySQL Server.');
-      });
-      pool.query("USE caremedb", function(err) {
-        if (err) throw err;
-      });
-
-      pool.query("USE caremedb", function(err) {
-        if (err) throw err;
-      });
       queryDatabase(author);
       console.log('intenet age here !');
       connection.release();
