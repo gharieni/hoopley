@@ -15,12 +15,6 @@ pool.getConnection(function(err,connection) {
   console.log('Connected to the MySQL Server.');
 });
 
-pool.query("USE caremedb;", function(err) {
-  if (err) throw err;
-  console.log('caremedb used')
-});
-
-
 /*
 var sql = 'CREATE TABLE data (`age` INT , `sexe` VARCHAR(10) NOT NULL , `height` INT, `weight` INT, `contact` VARCHAR(100), `relation` VARCHAR(100), `pcr` VARCHAR(10),`pathologie` VARCHAR(100))';
 connection.query(sql,  function (err, res) {
@@ -30,24 +24,13 @@ connection.query(sql,  function (err, res) {
 */
 
 function queryDatabase(author){
-  pool.query("USE caremedb;", function(err) {
-    if (err) throw err;
-  });
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
   });
-  console.log('_________________________________________________');
-
-  pool.query("USE caremedb;", function(err) {
-    if (err) throw err;
-  });
-  pool.query("SELECT * FROM data;", function (err,rows) {
-    if(err) throw err;
-    console.log('Data received from Db:');
-    console.log(rows);
-    connection.release();
-  });
+  console.log('__________________before connection release_______________________________');
+  connection.release();
+  console.log('__________________after connection release _______________________________');
 };
 
 
@@ -85,7 +68,6 @@ var pushToMysql = (userId, intent, text) => {
       break;
     case 'Weight':
       author.weight = text;
-      console.log('------------------------------');
       queryDatabase(author);
       console.log('intenet weight complete !');
       break;
