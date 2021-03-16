@@ -25,12 +25,11 @@ connection.query(sql,  function (err, res) {
 
 function queryDatabase(author){
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
+    console.log('__________________before connection release_______________________________');
+    connection.release();
+    console.log('__________________after connection release _______________________________');
     if(err) throw err;
-    console.log('Last insert ID:', res.insertId);
   });
-  console.log('__________________before connection release_______________________________');
-  connection.release();
-  console.log('__________________after connection release _______________________________');
 };
 
 
