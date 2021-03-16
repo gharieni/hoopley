@@ -12,9 +12,6 @@ pool.getConnection(function(err,connection) {
   }
 
   console.log('Connected to the MySQL Server.');
-  pool.query("USE caremedb", function(err) {
-    if (err) throw err;
-  });
 });
 
 /*
@@ -26,6 +23,10 @@ connection.query(sql,  function (err, res) {
 */
 
 function queryDatabase(author){
+  pool.query("USE caremedb", function(err) {
+    if (err) throw err;
+  });
+
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
     console.log('Last insert ID:', res.insertId);
