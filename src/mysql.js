@@ -32,67 +32,69 @@ connection.query(sql,  function (err, res) {
 function queryDatabase(author){
   pool.query("USE caremedb;", function(err) {
     if (err) throw err;
-    pool.query('INSERT INTO data SET ?', author, function (err, res) {
-      if(err) throw err;
-      console.log('Last insert ID:', res.insertId);
-    });
-    console.log('_________________________________________________');
+  });
+  pool.query('INSERT INTO data SET ?', author, function (err, res) {
+    if(err) throw err;
+    console.log('Last insert ID:', res.insertId);
+  });
+  console.log('_________________________________________________');
 
-    pool.query("USE caremedb;", function(err) {
-      if (err) throw err;
-      pool.query("SELECT * FROM data;", function (err,rows) {
-        if(err) throw err;
-        console.log('Data received from Db:');
-        console.log(rows);
-        connection.release();
-      });
-    }
-
-
-      var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
-
-      var pushToMysql = (userId, intent, text) => {
-
-        console.log(intent.displayName);
+  pool.query("USE caremedb;", function(err) {
+    if (err) throw err;
+  });
+  pool.query("SELECT * FROM data;", function (err,rows) {
+    if(err) throw err;
+    console.log('Data received from Db:');
+    console.log(rows);
+    connection.release();
+  });
+};
 
 
-        switch(intent.displayName) {
-          case '1) Default Welcome Intent':
-            break;
-          case '2) Data share':
-            break;
-          case 'age':
-            author.age = text;
-            console.log('intent age here ');
-            break;
-          case 'contact with a positive of COVID-19?':
-            author.contact = text;
-            break;
-          case 'contact-type':
-            break;
-          case 'height':
-            author.height = text;
-            break;
-          case 'pathologies?':
-            author.pathologie = text;
-            break;
-          case 'Sexe':
-            author.sexe = text;
-            break;
-          case 'symptoms':
-            break;
-          case 'Weight':
-            author.weight = text;
-            console.log('------------------------------');
-            queryDatabase(author);
-            console.log('intenet weight complete !');
-            break;
-          case 'you have test for COVID-19':
-            author.pcr = text;
-            break;
-          case 'symptom date':
-            break;
-        } 
-      };
+var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
 
-      module.exports = pushToMysql;
+var pushToMysql = (userId, intent, text) => {
+
+  console.log(intent.displayName);
+
+
+  switch(intent.displayName) {
+    case '1) Default Welcome Intent':
+      break;
+    case '2) Data share':
+      break;
+    case 'age':
+      author.age = text;
+      console.log('intent age here ');
+      break;
+    case 'contact with a positive of COVID-19?':
+      author.contact = text;
+      break;
+    case 'contact-type':
+      break;
+    case 'height':
+      author.height = text;
+      break;
+    case 'pathologies?':
+      author.pathologie = text;
+      break;
+    case 'Sexe':
+      author.sexe = text;
+      break;
+    case 'symptoms':
+      break;
+    case 'Weight':
+      author.weight = text;
+      console.log('------------------------------');
+      queryDatabase(author);
+      console.log('intenet weight complete !');
+      break;
+    case 'you have test for COVID-19':
+      author.pcr = text;
+      break;
+    case 'symptom date':
+      break;
+  } 
+};
+
+module.exports = pushToMysql;
