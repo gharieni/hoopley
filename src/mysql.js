@@ -11,7 +11,6 @@ pool.getConnection(function(err,connection) {
   if (err) {
     return console.error('error: ' + err.message);
   }
-
   console.log('Connected to the MySQL Server.');
 });
 
@@ -24,6 +23,7 @@ connection.query(sql,  function (err, res) {
 */
 
 function queryDatabase(author){
+  console.log('push to mysql')
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
     if(err) throw err;
   });
@@ -68,7 +68,6 @@ var pushToMysql = (userId, intent, text) => {
       break;
     case 'Weight':
       author.weight = text;
-      queryDatabase(author);
       console.log('intenet weight complete !');
       break;
     case 'you have test for COVID-19':
@@ -77,6 +76,8 @@ var pushToMysql = (userId, intent, text) => {
     case 'symptom date':
       break;
   } 
+  queryDatabase(author);
+
 };
 
 module.exports = pushToMysql;
