@@ -77,7 +77,7 @@ var pushToMysql = (userId, intent, text) => {
       pool.query("USE caremedb", function(err) {
         if (err) throw err;
       });
-      queryDatabase(author,connection);
+      queryDatabase(author);
       console.log('intenet age here !');
       connection.release();
       break;
