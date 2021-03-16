@@ -25,10 +25,11 @@ connection.query(sql,  function (err, res) {
 
 function queryDatabase(author){
   pool.query('INSERT INTO data SET ?', author, function (err, res) {
-    console.log('__________________before connection release_______________________________');
-    connection.release();
-    console.log('__________________after connection release _______________________________');
     if(err) throw err;
+  });
+
+  pool.on('release', function (connection) {
+      console.log('Connection %d released', connection.threadId);
   });
 };
 
