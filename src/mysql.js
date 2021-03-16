@@ -3,7 +3,7 @@ var mysql = require('mysql');
 const pool = mysql.createPool({
   host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
   user : 'admin',
-  password : '75lbt0u&'
+  password : '75lbt0u&',
   database : 'caremedb'
 });
 
