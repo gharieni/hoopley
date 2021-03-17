@@ -34,7 +34,7 @@ function queryDatabase(author){
 };
 
 
-var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: '', symptom '', symp-date ''};
+var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: '', symptom: '', symp-date: ''};
 
 var pushToMysql = (userId, intent, text) => {
   console.log(intent.displayName);
