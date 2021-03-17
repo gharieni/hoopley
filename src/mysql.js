@@ -34,16 +34,7 @@ function queryDatabase(author){
 };
 
 
-var author = {age: '', 
-  sexe: '', 
-  height: '', 
-  weight: '', 
-  contact: '', 
-  relation: '', 
-  pcr: '', 
-  pathologie: '', 
-  symptom: '', 
-  symp-date: ''};
+var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: '', symptom: '', symDate: ''};
 
 var pushToMysql = (userId, intent, text) => {
   console.log(intent.displayName);
@@ -81,7 +72,7 @@ var pushToMysql = (userId, intent, text) => {
       author.symptom = text;
       break;
     case 'symptom date':
-      author.symp-date = text;
+      author.sympDate = text;
       queryDatabase(author);
       break;
   } 
