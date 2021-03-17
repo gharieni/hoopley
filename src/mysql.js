@@ -72,7 +72,7 @@ var pushToMysql = (userId, intent, text) => {
       author.symptom = text;
       break;
     case 'symptom date':
-      author.sympDate = text;
+      author.symDate = text;
       queryDatabase(author);
       break;
   } 
