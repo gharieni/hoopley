@@ -34,13 +34,10 @@ function queryDatabase(author){
 };
 
 
-var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: ''};
+var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: '', symptom '', symp-date ''};
 
 var pushToMysql = (userId, intent, text) => {
-
   console.log(intent.displayName);
-
-
   switch(intent.displayName) {
     case '1) Default Welcome Intent':
       break;
@@ -50,34 +47,34 @@ var pushToMysql = (userId, intent, text) => {
       author.age = text;
       console.log('intent age here ');
       break;
-    case 'contact with a positive of COVID-19?':
-      author.contact = text;
-      break;
-    case 'contact-type':
+    case 'Sexe':
+      author.sexe = text;
       break;
     case 'height':
       author.height = text;
       break;
-    case 'pathologies?':
-      author.pathologie = text;
-      queryDatabase(author);
-      break;
-    case 'Sexe':
-      author.sexe = text;
-      break;
-    case 'symptoms':
-      break;
     case 'Weight':
       author.weight = text;
-      console.log('intenet weight complete !');
+      break;
+    case 'contact with a positive of COVID-19?':
+      author.contact = text;
+      break;
+    case 'contact-type':
+      author.relation = text;
       break;
     case 'you have test for COVID-19':
       author.pcr = text;
       break;
+    case 'pathologies?':
+      author.pathologie = text;
+      break;
+    case 'symptoms':
+      author.symptom = text;
+      break;
     case 'symptom date':
+      author.symp-date = text;
+      queryDatabase(author);
       break;
   } 
-
 };
-
 module.exports = pushToMysql;
