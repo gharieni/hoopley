@@ -55,7 +55,7 @@ var pushToMysql = (userId, intent, text) => {
       author.weight = text;
       break;
     case 'vaccin':
-      author.weight = text;
+      author.vaccin = text;
       break;
     case 'contact with a positive of COVID-19?':
       author.contact = text;
