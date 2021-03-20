@@ -34,14 +34,12 @@ function queryDatabase(author){
 };
 
 
-var author = {age: '', sexe: '', height: '', weight: '', contact: '', relation: '', pcr: '', pathologie: '', symptom: '', symDate: ''};
+var author = {age: '', sexe: '', height: '', weight: '',vaccin:'',  contact: '', relation: '', pcr: '', pathologie: '', symptom: '', symDate: ''};
 
 var pushToMysql = (userId, intent, text) => {
   console.log(intent.displayName);
   switch(intent.displayName) {
-    case '1) Default Welcome Intent':
-      break;
-    case '2) Data share':
+    case 'Default Welcome Intent':
       break;
     case 'age':
       author.age = text;
@@ -54,6 +52,9 @@ var pushToMysql = (userId, intent, text) => {
       author.height = text;
       break;
     case 'Weight':
+      author.weight = text;
+      break;
+    case 'vaccin':
       author.weight = text;
       break;
     case 'contact with a positive of COVID-19?':
