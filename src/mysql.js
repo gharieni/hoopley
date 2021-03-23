@@ -29,7 +29,7 @@ function queryDatabase(author){
   });
 
   pool.on('release', function (connection) {
-      console.log('Connection %d released', connection.threadId);
+    console.log('Connection %d released', connection.threadId);
   });
 };
 
@@ -70,16 +70,16 @@ var pushToMysql = (userId, intent, text) => {
       author.pathologie = text;
       break;
     case 'symptoms':
-      console.log(text);
       author.symptom = text;
+      break;
+    case 'symptoms - no':
+      author.symptom = 'no symptom';
+      queryDatabase(author);
       break;
     case 'symptom date':
       author.symDate = text;
       queryDatabase(author);
       break;
   } 
-  // to modify after install the card request for messanger 
-  if (!author.symDate && (author.symptom == 'no' || author.symptom == 'No' || author.symptom == 'NO' ))
-    queryDatabase(author);
 };
 module.exports = pushToMysql;
