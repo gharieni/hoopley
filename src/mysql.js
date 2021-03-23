@@ -70,6 +70,7 @@ var pushToMysql = (userId, intent, text) => {
       author.pathologie = text;
       break;
     case 'symptoms':
+      console.log(text);
       author.symptom = text;
       break;
     case 'symptom date':
