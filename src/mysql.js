@@ -77,7 +77,7 @@ var pushToMysql = (userId, intent, text) => {
       queryDatabase(author);
       break;
   } 
-  if (!author.symDate)
+  if (!author.symDate && author.symptom)
     queryDatabase(author);
 };
 module.exports = pushToMysql;
