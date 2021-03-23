@@ -77,7 +77,8 @@ var pushToMysql = (userId, intent, text) => {
       queryDatabase(author);
       break;
   } 
-  if (!author.symDate && author.symptom)
+  // to modify after install the card request for messanger 
+  if (!author.symDate && (author.symptom == 'no' || author.symptom == 'No' || author.symptom == 'NO' ))
     queryDatabase(author);
 };
 module.exports = pushToMysql;
