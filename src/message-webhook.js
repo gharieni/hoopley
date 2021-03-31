@@ -13,11 +13,10 @@ module.exports = (req, res) => {
     res.status(200).send("event receive");
   }
   else{
-    console.dir(res);
 
-    if (req.intent) {
-      pushToMysql(NULL, req.intent, req.queryResult.queryText);
-    }
+//    if (req.intent) {
+ //     pushToMysql(NULL, req.intent, req.queryResult.queryText);
+  //  }
     res.sendStatus(201);
   }
 }
