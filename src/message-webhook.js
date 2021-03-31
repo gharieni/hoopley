@@ -13,7 +13,7 @@ module.exports = (req, res) => {
     res.status(200).send("event receive");
   }
   else{
-    console.dir(req.body.object);
+    console.dir(req.body);
     res.sendStatus(404);
   }
 }
