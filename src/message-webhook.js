@@ -14,7 +14,7 @@ module.exports = (req, res) => {
   }
   else{
   //  console.dir(res);
-    if (result.intent) {
+    if (req.intent) {
       pushToMysql(NULL, req.intent, req.queryResult.queryText);
     }
     res.sendStatus(201);
