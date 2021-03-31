@@ -1,7 +1,7 @@
 const processMessage = require('./process-message');
 
 module.exports = (req, res) => {
-  if (req.body) {
+  if (req.body.object === 'page') {
     req.body.entry.forEach(entry => {
       entry.messaging.forEach(event => {
         if (event.message && event.message.text) {
@@ -13,6 +13,7 @@ module.exports = (req, res) => {
     res.status(200).send("event receive");
   }
   else{
+    console.dir(event);
     res.sendStatus(404);
   }
 }
