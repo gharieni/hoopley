@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 
 const pool = mysql.createPool({
-  host : 'care-me-db.cmrrij8g9xe7.eu-west-3.rds.amazonaws.com',
-  user : 'admin',
-  password : '75lbt0u&',
+  host : process.env.db-host,
+  user : process.env.db-user,
+  password :process.env.db-password,
   database : 'caremedb'
 });
 
@@ -14,13 +14,6 @@ pool.getConnection(function(err,connection) {
   console.log('Connected to the MySQL Server.');
 });
 
-/*
-var sql = 'CREATE TABLE data (`age` INT , `sexe` VARCHAR(10) NOT NULL , `height` INT, `weight` INT, `contact` VARCHAR(100), `relation` VARCHAR(100), `pcr` VARCHAR(10),`pathologie` VARCHAR(100))';
-connection.query(sql,  function (err, res) {
-  if(err) throw err;
-  console.log("Table created");
-});
-*/
 
 function queryDatabase(author){
   console.log('push to mysql')
