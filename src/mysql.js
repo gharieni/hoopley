@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 
 const pool = mysql.createPool({
-  host : process.env.db-host,
-  user : process.env.db-user,
-  password :process.env.db-password,
+  host : process.env.db_host,
+  user : process.env.db_user,
+  password :process.env.db_password,
   database : 'caremedb'
 });
 
